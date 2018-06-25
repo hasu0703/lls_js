@@ -1,0 +1,15 @@
+{
+  "name": "nw_setting",
+  "version": "1.0.0",
+  "description": "nw building",
+  "scripts": {
+    "dev": "nw src/",
+    "build": "nwbuild -p win32,win64,osx64,linux32,linux64 -o c:/ubu/build/ src/"
+  },
+  "devDependencies": {
+    "nw": "^0.30.2",
+    "nw-builder": "^3.5.4"
+  },
+  "repository": "nw",
+  "license": "MIT"
+}

@@ -1,0 +1,10 @@
+{
+  "name": "nw.js-example",
+  "main": "views/index.html",
+  "version": "0.0.1",
+  "window": {
+    "min_width": 400,
+    "min_height": 400
+  },
+  "devDependencies": {}
+}
