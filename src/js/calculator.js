@@ -503,7 +503,7 @@ Calculator.prototype.update = function () {
             eq["en"] = ui.selector["armor"][b + 2]["enchant"];
 
             this.bougu[b].load(eq);
-
+            
         }
 
 

@@ -198,9 +198,10 @@ function  UiArmor(id){
             var old_ecnthant =  old[i]["enchant"].get_value();
         }
         
-        option_count(eqid + "_enchant",old_ecnthant,0,10);
+       // option_count(eqid + "_enchant",old_ecnthant,0,10);
         ui.selector["armor"][i] = [];
-        ui.selector["armor"][i]["enchant"] = new UiPart(eqid + "_enchant");
+        ui.selector["armor"][i]["enchant"] = new UiSelect(eqid + "_enchant");
+        ui.selector["armor"][i]["enchant"].set_option(0,10,old_ecnthant);
         ui.selector["armor"][i]["equip"] = new UiEquip(eqid);
 
     }

@@ -50,14 +50,17 @@ Bougu.prototype.load = function(reader){
     if(reader.MR強化 != null){this.mr_enchant = reader.MR強化;}
     if(reader.印章強化 != null){this.element_enchant = reader.印章強化;}
     if(reader.特性 != null){this.tokusei = reader.特性;}     
- 
+    //reader["en"].set_option(0,this.max_enchant);
+    
     if(reader["changeitem"] != null && reader["en"] != null){
-        
+        console.log(reader["en"]);
+        reader["en"].set_option(0,this.max_enchant);
         reader["en"].put_value(this.safety);
     }
     this.op2.checkEnchant(reader);
     reader["changeitem"] = null;
     reader["en"]  = null;
+    console.log(this.op2);
     
     this.op.loadoption(reader);
 }

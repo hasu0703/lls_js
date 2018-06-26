@@ -57,10 +57,29 @@ Uibasic.prototype.put_value = function (val) {
 
 
 function UiPart(id) {
-
     Uibasic.call(this, id);
 }
 UiPart.prototype = new Uibasic();
+
+function UiSelect(id){
+    Uibasic.call(this, id);
+}
+UiSelect.prototype = new Uibasic();
+UiSelect.prototype.set_option = function(min,max,selected){
+    if(min == null)min = 0;
+    if(max == null)max = 10;
+    this.selector.innerHTML = "";
+    for (var i = min; i <= max; i++) {
+        var option_add = document.createElement("option");
+        if(selected == i){
+            option_add.setAttribute("selected", "selected"); // option ⇒ option_add
+        }
+        option_add.setAttribute("value", i); // option ⇒ option_add
+        option_add.innerHTML = i; // option ⇒ option_add
+
+        this.selector.appendChild(option_add);
+    }   
+}
 
 function UiEquip(id) {
 
@@ -191,11 +210,20 @@ window.onload = function () {
 
 
             jsons[EQ_LIST[i]] = [];
-            var dir = "./Q/" + EQ_LIST[i];
+            var dir = "./data/equip/" + EQ_LIST[i];
             var files = fs.readdirSync(dir);
             files.forEach(function (file) {
                 var path = dir + '/' + file;
                 var json = JSON.parse(fs.readFileSync(path, 'utf8'));
+                
+                switch(json["type"]){
+                    case "リング":
+                        json["enchanted"] = enchanted["ring"];
+                    break;
+                    default:
+
+                }
+                console.log(json);
                 jsons[EQ_LIST[i]].push(json);
             });
 

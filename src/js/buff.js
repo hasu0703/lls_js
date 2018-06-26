@@ -1,36 +1,39 @@
 function BUFF(){
-        this.AC = 0;    //アーマークラス 
-        this.ST = [0,0,0,0,0,0];
-        this.element_resist = [0,0,0,0];
-        this.ELEM_DMG_SHORT = [0,0,0,0];
-        this.ELEM_DMG_LONG  = [0,0,0,0];
-    
-        this.HP = 0;
-        this.MP = 0;
-        this.HPR = 0;
-        this.MPR = 0;
-        this.DMG_SHORT = 0;
-        this.DMG_LONG = 0;
-        this.DMG_MAGIC = 0;
-        this.HIT_SHORT = 0;
-        this.HIT_LONG = 0;
-        this.HIT_MAGIC = 0;
-        this.CRI_SHORT = 0;
-        this.CRI_LONG = 0;
-        this.CRI_MAGIC = 0;
-        this.SP = 0;
-        this.DR = 0;
-        this.MR = 0;
-        this.ER = 0;
-        this.r_weight = 0;
-        this.c_weight = 0;
-        this.effect = "";
-    
-        this.PVP = 0;
-        this.PVPDR = 0;
-        this.ailment = [0,0,0,0,0];
+this.reset();
         //int[] ailment = new int[AILMENT_LIST.length];
 
+}
+BUFF.prototype.reset = function(){
+    this.AC = 0;    //アーマークラス 
+    this.ST = [0,0,0,0,0,0];
+    this.element_resist = [0,0,0,0];
+    this.ELEM_DMG_SHORT = [0,0,0,0];
+    this.ELEM_DMG_LONG  = [0,0,0,0];
+
+    this.HP = 0;
+    this.MP = 0;
+    this.HPR = 0;
+    this.MPR = 0;
+    this.DMG_SHORT = 0;
+    this.DMG_LONG = 0;
+    this.DMG_MAGIC = 0;
+    this.HIT_SHORT = 0;
+    this.HIT_LONG = 0;
+    this.HIT_MAGIC = 0;
+    this.CRI_SHORT = 0;
+    this.CRI_LONG = 0;
+    this.CRI_MAGIC = 0;
+    this.SP = 0;
+    this.DR = 0;
+    this.MR = 0;
+    this.ER = 0;
+    this.r_weight = 0;
+    this.c_weight = 0;
+    this.effect = "";
+
+    this.PVP = 0;
+    this.PVPDR = 0;
+    this.ailment = [0,0,0,0,0];
 }
 
 BUFF.prototype.checkEnchant = function(reader){
@@ -39,6 +42,9 @@ BUFF.prototype.checkEnchant = function(reader){
         case "アミュレット":
         case "イアリング":
         case "ベルト":
+            if(reader["enchant"]!=null && reader["enchanted"] != null){
+                this.EnchantOption(reader);
+            }
             break;
         default:
        
@@ -47,6 +53,16 @@ BUFF.prototype.checkEnchant = function(reader){
             break;
 
     }
+}
+
+BUFF.prototype.EnchantOption = function(reader){
+console.log(reader["enchanted"]);
+if(reader["enchanted"]["type"] == "overwirte"){
+    for(i in reader["enchanted"]["enchant"][reader["enchant"]]){
+        console.log(i);
+    }
+    this.loadoption(reader["enchanted"]["enchant"][reader["enchant"]]);
+}
 }
 
 BUFF.prototype.loadoption = function(reader){
@@ -158,5 +174,8 @@ BUFF.prototype.loadoption = function(reader){
     }
     if (reader["魔法クリティカル"] != null) {
         this.CRI_MAGIC = parseInt(reader["魔法クリティカル"]);
+    }
+    if (reader["PVP"] != null) {
+        this.PVP = parseInt(reader["PVP"]);
     }
 }
