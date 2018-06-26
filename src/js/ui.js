@@ -3,49 +3,51 @@
  */
 var uidata = [];
 var calc = new Calculator();
+console.log(calc);
 
 function Uibasic(id) {
 
-    this.initialize = function () {
-        this.selector = document.getElementById(id);
-    }
+    this.initialize(id);
+}
+Uibasic.prototype.initialize = function (id) {
 
-    this.get_value = function () {
-        tagname = this.selector.tagName;
-        id = this.selector.getAttribute("id");
-        switch (tagname) {
-            case "INPUT":
-                break;
-            case "SELECT":
-                this.value = this.selector.value;
-                break;
-            default:
-                this.value = this.selector.innerHTML;
-                break;
-        }
-        return this.value;
-    }
+    this.selector = document.getElementById(id);
+}
 
-    this.put_value = function (val) {
-        if (val == null) {
-            val = this.value;
-        }
-        this.value = val;
-        tagname = this.selector.tagName;
-
-        switch (tagname) {
-            case "INPUT":
-                break;
-            case "SELECT":
-                this.selector.value = val;
-                break;
-            default:
-                this.selector.innerHTML = val;
-                break;
-        }
-        return this.value;
+Uibasic.prototype.get_value = function () {
+    tagname = this.selector.tagName;
+    id = this.selector.getAttribute("id");
+    switch (tagname) {
+        case "INPUT":
+            break;
+        case "SELECT":
+            this.value = this.selector.value;
+            break;
+        default:
+            this.value = this.selector.innerHTML;
+            break;
     }
-    this.initialize();
+    return this.value;
+}
+
+Uibasic.prototype.put_value = function (val) {
+    if (val == null) {
+        val = this.value;
+    }
+    this.value = val;
+    tagname = this.selector.tagName;
+
+    switch (tagname) {
+        case "INPUT":
+            break;
+        case "SELECT":
+            this.selector.value = val;
+            break;
+        default:
+            this.selector.innerHTML = val;
+            break;
+    }
+    return this.value;
 }
 
 
@@ -53,115 +55,113 @@ function Uibasic(id) {
 
 
 
-var UiPart = function (id) {
+
+function UiPart(id) {
+
     Uibasic.call(this, id);
-
 }
+UiPart.prototype = new Uibasic();
 
-var UiEquip = function(id){
+function UiEquip(id) {
+
     Uibasic.call(this, id);
-    this.eqtype_id   = id.replace("equip_","");
-    this.eqtype_name = EQ_LIST[this.eqtype_id]; 
-    this.enchantname = function(){
-        return this.eqtype_id + "_enchant";
-    }
-    this.get_data = function(){
-        var v = this.get_value();
+    this.eqtype_id = id.replace("equip_", "");
+    this.eqtype_name = EQ_LIST[this.eqtype_id];
 
-        lists = EQ_JSON[this.eqtype_name];
-        for(l in lists){
-            if(lists[l].name == v){
-                return lists[l];
-            }
+}
+UiEquip.prototype = new Uibasic();
+UiEquip.prototype.enchantname = function () {
+    return this.eqtype_id + "_enchant";
+}
+UiEquip.prototype.get_data = function () {
+    var v = this.get_value();
+
+    lists = EQ_JSON[this.eqtype_name];
+    for (l in lists) {
+        if (lists[l].name == v) {
+            return lists[l];
         }
-
     }
+
 }
 
-var Uitable = function (id) {
+
+function Uitable(id) {
     this.count = [];
     this.size = 0;
     this.isOverflow = [];
-
-    this.get_table = function (level) {
-        this.size = level;
-
-        this.reset_table(level);
-        this.field = [];
-
-        for (var i = 51; i < MAXLV; i++) {
-            var input = document.getElementsByName("lv" + i);
-            for (var r = 0; r < input.length; r++) {
-                if (input[r].checked) {
-                    this.field[i] = input[r].value;
-                    break;
-                }
-            }
-        }
-
-
-    }
-    this.reset_table = function (lv) {
-
-        for (var i = 51; i < MAXLV; i++) {
-
-            var input = document.getElementsByName("lv" + i);
-            for (var r = 0; r < input.length; r++) {
-                if (i > lv) {
-                    input[r].checked = false;
-                    input[r].disabled = "true";
-                } else {
-                    input[r].disabled = "";
-                }
-
-            }
-
-
-
-        }
-    }
-
     this.get_table(0);
 }
+Uitable.prototype.get_table = function (level) {
+    this.size = level;
+    this.reset_table(level);
+    this.field = [];
+
+    for (var i = 51; i < MAXLV; i++) {
+        var input = document.getElementsByName("lv" + i);
+        for (var r = 0; r < input.length; r++) {
+            if (input[r].checked) {
+                this.field[i] = input[r].value;
+                break;
+            }
+        }
+    }
+
+
+}
+Uitable.prototype.reset_table = function (lv) {
+    for (var i = 51; i < MAXLV; i++) {
+        var input = document.getElementsByName("lv" + i);
+        for (var r = 0; r < input.length; r++) {
+            if (i > lv) {
+                input[r].checked = false;
+                input[r].disabled = "true";
+            } else {
+                input[r].disabled = "";
+            }
+        }
+    }
+}
+
 
 function Ui() {
     this.selector = [];
+}
+Ui.prototype.init = function () {
+    this.loadEquip();
+    //mem.clear();
+    //mem.load_from_mem(cb_eq_ch.getSelectedIndex());
+    //calc.update();
 
-    this.init = function () {
-        this.loadEquip();
-        //mem.clear();
-        //mem.load_from_mem(cb_eq_ch.getSelectedIndex());
-        //calc.update();
+}
 
-    }
+Ui.prototype.loadEquip = function () {
+    var cb_cls = this.selector["cb_cls"].get_value();
 
-    this.loadEquip = function(){
-        var cb_cls = this.selector["cb_cls"].get_value();
- 
-       
-        for(i in this.selector["armor"] ){
-            var lists = EQ_JSON[EQ_LIST[i]];
-            var eq =  this.selector["armor"][i]["equip"].selector;
-            var selected = this.selector["armor"][i]["equip"].get_value();
-            eq.innerHTML = "";
-            for(l in lists){
-                var re = new RegExp("(ALL|"+cb_cls+")");
 
-                if(lists[l]["装備"].match(re)){
-                    var option_add = document.createElement("option");
-                    if(selected ==  lists[l]["name"]){
-                        option_add.setAttribute("selected","selected");
-                    }
-                    option_add.setAttribute("value", lists[l]["name"]); // option ⇒ option_add
-                    option_add.innerHTML = lists[l]["name"]; // option ⇒ option_add
-                    eq.appendChild(option_add);
-                    //eqlist.push(lists[l]);
+    for (i in this.selector["armor"]) {
+        var lists = EQ_JSON[EQ_LIST[i]];
+        var eq = this.selector["armor"][i]["equip"].selector;
+        var selected = this.selector["armor"][i]["equip"].get_value();
+        eq.innerHTML = "";
+        for (l in lists) {
+            var re = new RegExp("(ALL|" + cb_cls + ")");
+
+            if (lists[l]["装備"].match(re)) {
+                var option_add = document.createElement("option");
+                if (selected == lists[l]["name"]) {
+                    option_add.setAttribute("selected", "selected");
                 }
+                option_add.setAttribute("value", lists[l]["name"]); // option ⇒ option_add
+                option_add.innerHTML = lists[l]["name"]; // option ⇒ option_add
+                eq.appendChild(option_add);
+                //eqlist.push(lists[l]);
             }
-           // console.log(eqlist);
         }
+        // console.log(eqlist);
     }
 }
+
 var ui = new Ui();
 
 
@@ -205,14 +205,14 @@ window.onload = function () {
         var savejson = JSON.stringify(jsons, null, " ");
         var save_script = "var equipjson = " + savejson + ";";
         fs.writeFileSync('js/equip.js', save_script);
-    }else{
+    } else {
         jsons = equipjson;
     }
     EQ_JSON = jsons;
 
 
-   UiArmor("eqiup");
-    
+    UiArmor("eqiup");
+
 
     console.log(ui);
     var onupdates = document.getElementsByClassName('onupdate');

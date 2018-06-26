@@ -1,81 +1,72 @@
 
 
 
-var Bougu = function(){
-    this.initialize = function(){
-        this.op = new BUFF();
-        this.op2 = new BUFF();
+function Bougu(){
+    this.op = new BUFF();
+    this.op2 = new BUFF();
 
-        this.name = "";
-        this.type = "";
-        this.material = "";
-        this.equip = "";
-        this.grade = "";
-        this.enchant = 0;
-        this.max_enchant = 0;
-        this.safety = 0;
-        this.mr_enchant = 0;
-        this.element_enchant = false;
-        this.tokusei = "";
-    }
-
-    
-    this.reset = function(){
-        this.op = new BUFF();
-        this.op2 = new BUFF();
-        
-
-        this.name = "";
-        this.type = "";
-        this.material = "";
-        this.equip = "";
-        this.grade = "";
-        this.enchant = 0;
-
-        this.safety = 0;
-        this.mr_enchant = 0;
-        this.element_enchant = false;
-        this.tokusei = "";
-    }
-
-    this.initialize();
-
-    this.load = function(reader){
-        this.reset();
-        
-        if (reader == null) {
-            return;
-        }
-        if(reader.equip != null){this.equip  = reader.equip;}
-        if(reader.name != null){this.name   = reader.name;}
-        if(reader.安全 != null){this.safety = reader.安全;}
-        if(reader.強化限界 != null){this.max_enchant = reader.強化限界;}
-        if(reader.type != null){this.type = reader.type;}
-        if(reader.材質 != null){this.material = reader.材質;}
-        if(reader.グレード != null){this.grade = reader.グレード;}
-        if(reader.MR強化 != null){this.mr_enchant = reader.MR強化;}
-        if(reader.印章強化 != null){this.element_enchant = reader.印章強化;}
-        if(reader.特性 != null){this.tokusei = reader.特性;}     
-     
-        if(reader["changeitem"] != null && reader["en"] != null){
-            
-            reader["en"].put_value(this.safety);
-        }
-        this.op2.checkEnchant(reader);
-        reader["changeitem"] = null;
-        reader["en"]  = null;
-        
-        this.op.loadoption(reader);
-        
-    }
-
-    this.getText = function(){
-        var text = "";
-        text += "AC" + (this.op.AC + this.op2.AC);
-        
-    }
+    this.name = "";
+    this.type = "";
+    this.material = "";
+    this.equip = "";
+    this.grade = "";
+    this.enchant = 0;
+    this.max_enchant = 0;
+    this.safety = 0;
+    this.mr_enchant = 0;
+    this.element_enchant = false;
+    this.tokusei = "";
 }
 
+Bougu.prototype.reset = function(){
+    this.op = new BUFF();
+    this.op2 = new BUFF();
+    this.name = "";
+    this.type = "";
+    this.material = "";
+    this.equip = "";
+    this.grade = "";
+    this.enchant = 0;
+
+    this.safety = 0;
+    this.mr_enchant = 0;
+    this.element_enchant = false;
+    this.tokusei = "";
+}
+
+Bougu.prototype.load = function(reader){
+    this.reset();
+    
+    if (reader == null) {
+        return;
+    }
+    if(reader.equip != null){this.equip  = reader.equip;}
+    if(reader.name != null){this.name   = reader.name;}
+    if(reader.安全 != null){this.safety = reader.安全;}
+    if(reader.強化限界 != null){this.max_enchant = reader.強化限界;}
+    if(reader.type != null){this.type = reader.type;}
+    if(reader.材質 != null){this.material = reader.材質;}
+    if(reader.グレード != null){this.grade = reader.グレード;}
+    if(reader.MR強化 != null){this.mr_enchant = reader.MR強化;}
+    if(reader.印章強化 != null){this.element_enchant = reader.印章強化;}
+    if(reader.特性 != null){this.tokusei = reader.特性;}     
+ 
+    if(reader["changeitem"] != null && reader["en"] != null){
+        
+        reader["en"].put_value(this.safety);
+    }
+    this.op2.checkEnchant(reader);
+    reader["changeitem"] = null;
+    reader["en"]  = null;
+    
+    this.op.loadoption(reader);
+}
+
+Bougu.prototype.getText = function(){
+    var text = "";
+    text += "AC" + (this.op.AC + this.op2.AC);
+    
+}
 /*
 public class Bougu implements Common {
 

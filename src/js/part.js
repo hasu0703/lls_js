@@ -163,11 +163,10 @@ function option_count(id,selected,min,max){
 
 /**武器リスト */
 
-var UIWepon = function(elem){
+function UIWepon(elem){
     this.cb_elem = new UiPart(elem);
 }
-
-var UiArmor = function(id){
+function  UiArmor(id){
     cl = document.getElementById(id);
     if (cl == null) return;
     var old = ui.selector["armor"];
@@ -203,7 +202,7 @@ var UiArmor = function(id){
         ui.selector["armor"][i] = [];
         ui.selector["armor"][i]["enchant"] = new UiPart(eqid + "_enchant");
         ui.selector["armor"][i]["equip"] = new UiEquip(eqid);
-        
+
     }
 }
 

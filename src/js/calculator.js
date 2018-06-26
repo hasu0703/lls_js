@@ -1,130 +1,57 @@
-var Calculator = function(){
-    var BASE = 0;
-    var REM = 1;
-    var LEVEL = 2;
-    var ENCHANT = 3;
-    var ELIXIR = 4;
 
-    var _ST = [];
-    for(i=0;i<5;i++){
-        _ST[i] = [];
+//キャラクターのデータ
+var BASE = 0;
+var REM = 1;
+var LEVEL = 2;
+var ENCHANT = 3;
+var ELIXIR = 4;
+
+var D_SHORT = 0;
+var H_SHORT = 1;
+var C_SHORT = 2;
+
+var D_LONG = 0;
+var H_LONG = 1;
+var C_LONG = 2;
+var AC = 3;
+var ER = 4;
+
+var HP = 0;
+var HPR = 1;
+var HP_POT = 2;
+
+var D_MAGIC = 0;
+var H_MAGIC = 1;
+var C_MAGIC = 2;
+var MB = 3;
+var RED_MP = 4;
+
+var MP = 0;
+var MPR = 1;
+var MP_POT = 2;
+
+var MR = 3;
+
+var _ST = [];
+for (i = 0; i < 5; i++) {
+    _ST[i] = [];
+}
+var _C = [];
+for (i = 0; i < 5; i++) {
+    _C[i] = [];
+    for (j = 0; j < ST_LIST.length; j++) {
+        _C[i][j] = [];
     }
-    var _C = [];
-    for(i=0;i<5;i++){
-        _C[i] = [];
-        for(j=0;j<ST_LIST.length;j++){
-            _C[i][j] = [];
-        }
-    }
+}
+var rem_data = [];
+var st_data = [];
+for (i = 0; i < CLASS_LIST.length; i++) {
+    st_data[i] = [
+        [],
+        []
+    ];
+}
 
-   var D_SHORT = 0;
-   var H_SHORT = 1;
-   var C_SHORT = 2;
-
-   var D_LONG = 0;
-   var H_LONG = 1;
-   var C_LONG = 2;
-   var AC = 3;
-   var ER = 4;
-
-   var HP = 0;
-   var HPR = 1;
-   var HP_POT = 2;
-
-   var D_MAGIC = 0;
-   var H_MAGIC = 1;
-   var C_MAGIC = 2;
-   var MB = 3;
-   var RED_MP = 4;
-
-   var red_mp;
-   var red_mp2 = 0;
-
-   var MP = 0;
-   var MPR = 1;
-   var MP_POT = 2;
-
-   var MR = 3;
-
-   var level = 1;
-   var _rem = 0;
-
-    var st_data = [];
-    for(i=0;i<CLASS_LIST.length;i++){
-        st_data[i] = [[],[]];
-    } 
-
-   var rem_data = [];
-   var base_dmg_short;
-   var base_dmg_long;
-   var base_dmg_magic;
-   var base_hit_short;
-   var base_hit_long;
-   var base_hit_magic;
-   var hit_short;
-   var hit_long;
-   var hit_magic;
-
-    var dmg_buki_ele1 = [];
-    var dmg_buki_ele2 = [];
-
-   var mb;
-   var sp;
-   var ml;
-   var int_beta;
-
-   var dmg_element1;
-   var dmg_element2;
-
-   var cri_short;
-   var cri_long;
-   var cri_magic;
-
-   var dmg_short;
-   var dmg_long;
-   var dmg_magic;
-
-   var dmg_small;
-   var dmg_big;
-   var dmg_cursed;
-   var dmg_undead;
-
-   var buki  = new Buki();
-   var buki2 = new Buki();
-
-   var base_ac;
-   var equip_ac;
-   var base_er;
-   var buff = new BUFF();
-   var md_dmg = false;
-   var equip_pattern = 0;
-   var ac;
-   var dg;
-   var enemy_hit_rate;
-   var cbdmg;
-   var hp;
-   var mp;
-   var mr;
-   var cls = "P";
-
-
-    var res_ele = [];
-    var res_ail = [];
-
-   var cons_mp;
-
-   /*
-   DecimalFormat format_dmg = new DecimalFormat("#0.0");
-   DecimalFormat format_rate = new DecimalFormat("#0.0%");
-   DecimalFormat format_rate_2 = new DecimalFormat("#0.00");
-   DecimalFormat format_speed = new DecimalFormat("##0.0");
-*/
-
-    var bougu = [];
-        for (i = 0; i < EQ_LIST.length - 2; i++) {
-            bougu[i] = new Bougu();
-        }
-        
 
 
 st_data[P][BASE][STR] = 13;
@@ -240,212 +167,300 @@ st_data[F][REM][CHA] = 4;
 rem_data[F] = 4;
 
 
-        //ステータスボーナス
-        _C[D_SHORT][STR][P] = 30;
-        _C[D_SHORT][STR][K] = 10;
-        _C[D_SHORT][STR][E] = 30;
-        _C[D_SHORT][STR][W] = 40;
-        _C[D_SHORT][STR][D] = 10;
-        _C[D_SHORT][STR][R] = 10;
-        _C[D_SHORT][STR][I] = 10;
-        _C[D_SHORT][STR][F] = 10;
+//ステータスボーナス
+_C[D_SHORT][STR][P] = 30;
+_C[D_SHORT][STR][K] = 10;
+_C[D_SHORT][STR][E] = 30;
+_C[D_SHORT][STR][W] = 40;
+_C[D_SHORT][STR][D] = 10;
+_C[D_SHORT][STR][R] = 10;
+_C[D_SHORT][STR][I] = 10;
+_C[D_SHORT][STR][F] = 10;
 
-        _C[H_SHORT][STR][P] = 4;
-        _C[H_SHORT][STR][K] = 3;
-        _C[H_SHORT][STR][E] = 5;
-        _C[H_SHORT][STR][W] = 6;
-        _C[H_SHORT][STR][D] = 3;
-        _C[H_SHORT][STR][R] = 4;
-        _C[H_SHORT][STR][I] = 5;
-        _C[H_SHORT][STR][F] = 3;
+_C[H_SHORT][STR][P] = 4;
+_C[H_SHORT][STR][K] = 3;
+_C[H_SHORT][STR][E] = 5;
+_C[H_SHORT][STR][W] = 6;
+_C[H_SHORT][STR][D] = 3;
+_C[H_SHORT][STR][R] = 4;
+_C[H_SHORT][STR][I] = 5;
+_C[H_SHORT][STR][F] = 3;
 
-        _C[C_SHORT][STR][P] = 20;
-        _C[C_SHORT][STR][K] = 20;
-        _C[C_SHORT][STR][E] = 24;
-        _C[C_SHORT][STR][W] = 30;
-        _C[C_SHORT][STR][D] = 10;
-        _C[C_SHORT][STR][R] = 20;
-        _C[C_SHORT][STR][I] = 30;
-        _C[C_SHORT][STR][F] = 20;
+_C[C_SHORT][STR][P] = 20;
+_C[C_SHORT][STR][K] = 20;
+_C[C_SHORT][STR][E] = 24;
+_C[C_SHORT][STR][W] = 30;
+_C[C_SHORT][STR][D] = 10;
+_C[C_SHORT][STR][R] = 20;
+_C[C_SHORT][STR][I] = 30;
+_C[C_SHORT][STR][F] = 20;
 
-        _C[D_LONG][DEX][P] = 40;
-        _C[D_LONG][DEX][K] = 40;
-        _C[D_LONG][DEX][E] = 10;
-        _C[D_LONG][DEX][W] = 80;
-        _C[D_LONG][DEX][D] = 20;
-        _C[D_LONG][DEX][R] = 40;
-        _C[D_LONG][DEX][I] = 80;
-        _C[D_LONG][DEX][F] = 40;
+_C[D_LONG][DEX][P] = 40;
+_C[D_LONG][DEX][K] = 40;
+_C[D_LONG][DEX][E] = 10;
+_C[D_LONG][DEX][W] = 80;
+_C[D_LONG][DEX][D] = 20;
+_C[D_LONG][DEX][R] = 40;
+_C[D_LONG][DEX][I] = 80;
+_C[D_LONG][DEX][F] = 40;
 
-        _C[H_LONG][DEX][P] = 6;
-        _C[H_LONG][DEX][K] = 6;
-        _C[H_LONG][DEX][E] = 3;
-        _C[H_LONG][DEX][W] = 8;
-        _C[H_LONG][DEX][D] = 4;
-        _C[H_LONG][DEX][R] = 7;
-        _C[H_LONG][DEX][I] = 8;
-        _C[H_LONG][DEX][F] = 6;
+_C[H_LONG][DEX][P] = 6;
+_C[H_LONG][DEX][K] = 6;
+_C[H_LONG][DEX][E] = 3;
+_C[H_LONG][DEX][W] = 8;
+_C[H_LONG][DEX][D] = 4;
+_C[H_LONG][DEX][R] = 7;
+_C[H_LONG][DEX][I] = 8;
+_C[H_LONG][DEX][F] = 6;
 
-        _C[C_LONG][DEX][P] = 30;
-        _C[C_LONG][DEX][K] = 40;
-        _C[C_LONG][DEX][E] = 16;
-        _C[C_LONG][DEX][W] = 50;
-        _C[C_LONG][DEX][D] = 20;
-        _C[C_LONG][DEX][R] = 40;
-        _C[C_LONG][DEX][I] = 50;
-        _C[C_LONG][DEX][F] = 40;
+_C[C_LONG][DEX][P] = 30;
+_C[C_LONG][DEX][K] = 40;
+_C[C_LONG][DEX][E] = 16;
+_C[C_LONG][DEX][W] = 50;
+_C[C_LONG][DEX][D] = 20;
+_C[C_LONG][DEX][R] = 40;
+_C[C_LONG][DEX][I] = 50;
+_C[C_LONG][DEX][F] = 40;
 
-        _C[ER][DEX][P] = 6;
-        _C[ER][DEX][K] = 4;
-        _C[ER][DEX][E] = 6;
-        _C[ER][DEX][W] = 10;
-        _C[ER][DEX][D] = 4;
-        _C[ER][DEX][R] = 5;
-        _C[ER][DEX][I] = 9;
-        _C[ER][DEX][F] = 4;
+_C[ER][DEX][P] = 6;
+_C[ER][DEX][K] = 4;
+_C[ER][DEX][E] = 6;
+_C[ER][DEX][W] = 10;
+_C[ER][DEX][D] = 4;
+_C[ER][DEX][R] = 5;
+_C[ER][DEX][I] = 9;
+_C[ER][DEX][F] = 4;
 
-        _C[D_MAGIC][INT][P] = 40;
-        _C[D_MAGIC][INT][K] = 40;
-        _C[D_MAGIC][INT][E] = 30;
-        _C[D_MAGIC][INT][W] = 10;
-        _C[D_MAGIC][INT][D] = 40;
-        _C[D_MAGIC][INT][R] = 40;
-        _C[D_MAGIC][INT][I] = 25;
-        _C[D_MAGIC][INT][F] = 40;
+_C[D_MAGIC][INT][P] = 40;
+_C[D_MAGIC][INT][K] = 40;
+_C[D_MAGIC][INT][E] = 30;
+_C[D_MAGIC][INT][W] = 10;
+_C[D_MAGIC][INT][D] = 40;
+_C[D_MAGIC][INT][R] = 40;
+_C[D_MAGIC][INT][I] = 25;
+_C[D_MAGIC][INT][F] = 40;
 
-        _C[H_MAGIC][INT][P] = 20;
-        _C[H_MAGIC][INT][K] = 100;
-        _C[H_MAGIC][INT][E] = 16;
-        _C[H_MAGIC][INT][W] = 8;
-        _C[H_MAGIC][INT][D] = 24;
-        _C[H_MAGIC][INT][R] = 18;
-        _C[H_MAGIC][INT][I] = 12;
-        _C[H_MAGIC][INT][F] = 100;
+_C[H_MAGIC][INT][P] = 20;
+_C[H_MAGIC][INT][K] = 100;
+_C[H_MAGIC][INT][E] = 16;
+_C[H_MAGIC][INT][W] = 8;
+_C[H_MAGIC][INT][D] = 24;
+_C[H_MAGIC][INT][R] = 18;
+_C[H_MAGIC][INT][I] = 12;
+_C[H_MAGIC][INT][F] = 100;
 
-        _C[C_MAGIC][INT][P] = 80;
-        _C[C_MAGIC][INT][K] = 100;
-        _C[C_MAGIC][INT][E] = 30;
-        _C[C_MAGIC][INT][W] = 2;
-        _C[C_MAGIC][INT][D] = 30;
-        _C[C_MAGIC][INT][R] = 70;
-        _C[C_MAGIC][INT][I] = 20;
-        _C[C_MAGIC][INT][F] = 100;
+_C[C_MAGIC][INT][P] = 80;
+_C[C_MAGIC][INT][K] = 100;
+_C[C_MAGIC][INT][E] = 30;
+_C[C_MAGIC][INT][W] = 2;
+_C[C_MAGIC][INT][D] = 30;
+_C[C_MAGIC][INT][R] = 70;
+_C[C_MAGIC][INT][I] = 20;
+_C[C_MAGIC][INT][F] = 100;
 
-        _C[MB][INT][P] = 0;
-        _C[MB][INT][K] = 0;
-        _C[MB][INT][E] = 0;
-        _C[MB][INT][W] = 1;
-        _C[MB][INT][D] = 0;
-        _C[MB][INT][R] = 0;
-        _C[MB][INT][I] = 1;
-        _C[MB][INT][F] = 0;
+_C[MB][INT][P] = 0;
+_C[MB][INT][K] = 0;
+_C[MB][INT][E] = 0;
+_C[MB][INT][W] = 1;
+_C[MB][INT][D] = 0;
+_C[MB][INT][R] = 0;
+_C[MB][INT][I] = 1;
+_C[MB][INT][F] = 0;
 
-        _C[HP][CON][P] = 11;
-        _C[HP][CON][K] = 16;
-        _C[HP][CON][E] = 9;
-        _C[HP][CON][W] = 6;
-        _C[HP][CON][D] = 10;
-        _C[HP][CON][R] = 12;
-        _C[HP][CON][I] = 8;
-        _C[HP][CON][F] = 16;
+_C[HP][CON][P] = 11;
+_C[HP][CON][K] = 16;
+_C[HP][CON][E] = 9;
+_C[HP][CON][W] = 6;
+_C[HP][CON][D] = 10;
+_C[HP][CON][R] = 12;
+_C[HP][CON][I] = 8;
+_C[HP][CON][F] = 16;
 
-        _C[MR][WIS][P] = 10;
-        _C[MR][WIS][K] = 0;
-        _C[MR][WIS][E] = 25;
-        _C[MR][WIS][W] = 15;
-        _C[MR][WIS][D] = 10;
-        _C[MR][WIS][R] = 18;
-        _C[MR][WIS][I] = 20;
-        _C[MR][WIS][F] = 0;
+_C[MR][WIS][P] = 10;
+_C[MR][WIS][K] = 0;
+_C[MR][WIS][E] = 25;
+_C[MR][WIS][W] = 15;
+_C[MR][WIS][D] = 10;
+_C[MR][WIS][R] = 18;
+_C[MR][WIS][I] = 20;
+_C[MR][WIS][F] = 0;
 
-        //Morph polymorph = new Morph();
-        this.acc = 1.0;
-        // 一段加速(ヘイスト、GP
-        var acc_1 = 1.3333;
-        // 二段加速(BP、ブラッドラスト、イビル
-        var acc_2 = 1.3333;
-        // 二段加速(ワッフル
-        var acc_ew = 1.1547;
-        // 三段加速(ドラゴンブラッド、酒
-        var acc_3 = 1.125;
-        var key_delay = 0.1815;
-    
-        var db_rate = 0.3333;
-        var ef_rate = 0.4000;
-        var bs_rate = 0.3333;
+/**
+ * キャラクタークラス
+ */
+function Calculator() {
+    var a = 10;
+    this.red_mp;
+    this.red_mp2 = 0;
+
+    this.level = 1;
+    this._rem = 0;
 
 
+    this.base_dmg_short;
+    this.base_dmg_long;
+    this.base_dmg_magic;
+    this.base_hit_short;
+    this.base_hit_long;
+    this.base_hit_magic;
+    this.hit_short;
+    this.hit_long;
+    this.hit_magic;
 
-    this.initialize = function(){
-        //this.rem_reset();
+    this.dmg_buki_ele1 = [];
+    this.dmg_buki_ele2 = [];
+
+    this.mb;
+    this.sp;
+    this.ml;
+    this.int_beta;
+
+    this.dmg_element1;
+    this.dmg_element2;
+
+    this.cri_short;
+    this.cri_long;
+    this.cri_magic;
+
+    this.dmg_short;
+    this.dmg_long;
+    this.dmg_magic;
+
+    this.dmg_small;
+    this.dmg_big;
+    this.dmg_cursed;
+    this.dmg_undead;
+
+    this.buki = new Buki();
+    this.buki2 = new Buki();
+
+    this.base_ac;
+    this.equip_ac;
+    this.base_er;
+    this.buff = new BUFF();
+    this.md_dmg = false;
+    this.equip_pattern = 0;
+    this.ac;
+    this.dg;
+    this.enemy_hit_rate;
+    this.cbdmg;
+    this.hp;
+    this.mp;
+    this.mr;
+    this.cls = "P";
+
+
+    this.res_ele = [];
+    this.res_ail = [];
+
+    this.cons_mp;
+
+    /*
+   DecimalFormat format_dmg = new DecimalFormat("#0.0");
+   DecimalFormat format_rate = new DecimalFormat("#0.0%");
+   DecimalFormat format_rate_2 = new DecimalFormat("#0.00");
+   DecimalFormat format_speed = new DecimalFormat("##0.0");
+*/
+
+    this.bougu = [];
+    for (i = 0; i < EQ_LIST.length - 2; i++) {
+        this.bougu[i] = new Bougu();
     }
 
-    this.update = function(){
-        if (cls != ui.selector["cb_cls"].get_value()) {
-            cls = ui.selector["cb_cls"].get_value();
-            this.rem_reset();
-            /*
-                        ui.cb_magic.removeAllItems();
-            ui.cb_magic.addItem("");
-            ui.cb_magic.setSelectedIndex(0);
 
-            if (cls == E) {
-                ui.cb_magic.addItem("トリプルアロー");
-                ui.cb_magic.addItem("サンバースト");
-                ui.cb_magic.addItem("コーンオブコールド");
-                ui.cb_magic.addItem("イラプション");
-                ui.cb_magic.addItem("コールライトニング");
-            }
-            if (cls == R) {
-                ui.cb_magic.addItem("フォースレイヤー");
-            }
-            if (cls == W) {
-                ui.cb_magic.addItem("サンバースト");
-                ui.cb_magic.addItem("コーンオブコールド");
-                ui.cb_magic.addItem("イラプション");
-                ui.cb_magic.addItem("コールライトニング");
-            }
-            */
-        } 
+
+    //Morph polymorph = new Morph();
+    this.acc = 1.0;
+    // 一段加速(ヘイスト、GP
+    this.acc_1 = 1.3333;
+    // 二段加速(BP、ブラッドラスト、イビル
+    this.acc_2 = 1.3333;
+    // 二段加速(ワッフル
+    this.acc_ew = 1.1547;
+    // 三段加速(ドラゴンブラッド、酒
+    this.acc_3 = 1.125;
+    this.key_delay = 0.1815;
+
+    this.db_rate = 0.3333;
+    this.ef_rate = 0.4000;
+    this.bs_rate = 0.3333;
+
+
+
+
+}
+
+Calculator.prototype.initialize = function () {
+    //this.rem_reset();
+}
+
+Calculator.prototype.update = function () {
+    if (this.cls != ui.selector["cb_cls"].get_value()) {
+        this.cls = ui.selector["cb_cls"].get_value();
+        this.rem_reset();
+
         /*
-        level = ui.cb_lev.getSelectedIndex() + 1;
-        ui.lev.level = level;
+                    ui.cb_magic.removeAllItems();
+        ui.cb_magic.addItem("");
+        ui.cb_magic.setSelectedIndex(0);
+
+        if (cls == E) {
+            ui.cb_magic.addItem("トリプルアロー");
+            ui.cb_magic.addItem("サンバースト");
+            ui.cb_magic.addItem("コーンオブコールド");
+            ui.cb_magic.addItem("イラプション");
+            ui.cb_magic.addItem("コールライトニング");
+        }
+        if (cls == R) {
+            ui.cb_magic.addItem("フォースレイヤー");
+        }
+        if (cls == W) {
+            ui.cb_magic.addItem("サンバースト");
+            ui.cb_magic.addItem("コーンオブコールド");
+            ui.cb_magic.addItem("イラプション");
+            ui.cb_magic.addItem("コールライトニング");
+        }
         */
- 
-       level = ui.selector["cb_lev"].get_value();
+    }
+    /*
+    level = ui.cb_lev.getSelectedIndex() + 1;
+    ui.lev.level = level;
+    */
 
-        for (i = 0; i < 6; i++) {
-            _ST[LEVEL][i] = 0;
-            _ST[ELIXIR][i] = 0;
-        }
-        for (i = 0; i < 5; i++) {
-            st = ST_LIST.indexOf(ui.selector["cb_elixir"][i].get_value());
-            if (st >= 0) {
-                if (ui.selector["cb_elixir_level"][i].get_value()  <= level) {
-                    _ST[ELIXIR][st]++;
-                }
+    this.level = ui.selector["cb_lev"].get_value();
+
+    for (i = 0; i < 6; i++) {
+        _ST[LEVEL][i] = 0;
+        _ST[ELIXIR][i] = 0;
+    }
+    for (i = 0; i < 5; i++) {
+        var st = ST_LIST.indexOf(ui.selector["cb_elixir"][i].get_value());
+        if (st >= 0) {
+            if (ui.selector["cb_elixir_level"][i].get_value() <= this.level) {
+                _ST[ELIXIR][st]++;
             }
         }
+    }
 
-        ui.selector["lev"].get_table(level);
-        for (i = 51; i < ui.selector["lev"].size; i++) {
-            st = ST_LIST.indexOf(ui.selector["lev"].field[i]);
-            
-            if (st >= 0) {
-                if (_ST[BASE][st] + _ST[REM][st] + _ST[LEVEL][st]
-                        + _ST[ELIXIR][st] < 45) {
-                    if (i <= level) {
-                        _ST[LEVEL][st]++;
-                    }
-                    ui.selector["lev"].isOverflow[i] = false;
-                } else if (i  <= level) {
-                    ui.selector["lev"].isOverflow[i] = true;
+    ui.selector["lev"].get_table(this.level);
+    for (i = 51; i < ui.selector["lev"].size; i++) {
+        var st = ST_LIST.indexOf(ui.selector["lev"].field[i]);
+
+        if (st >= 0) {
+            if (_ST[BASE][st] + _ST[REM][st] + _ST[LEVEL][st] +
+                _ST[ELIXIR][st] < 45) {
+                if (i <= level) {
+                    _ST[LEVEL][st]++;
                 }
-
+                ui.selector["lev"].isOverflow[i] = false;
+            } else if (i <= level) {
+                ui.selector["lev"].isOverflow[i] = true;
             }
+
         }
-        
-        ui.selector["lev"].get_table(level);
+    }
+
+    ui.selector["lev"].get_table(this.level);
     //   ui.lev.repaint();
 
 
@@ -471,95 +486,92 @@ rem_data[F] = 4;
             dmg_buki_ele2[e] = d[x];
         }*/
 
-        buff = new BUFF();
-        
-        for (var b = 0;b < bougu.length;b++) {
-            
-            var eq = ui.selector["armor"][b+2]["equip"].get_data();
-            var en = ui.selector["armor"][b+2]["enchant"].get_value();
-            if(bougu[b]["name"]  != eq["name"] || bougu[b].enchant != en){
-                if(bougu[b]["name"]  != eq["name"]){
-                    
-                    eq["changeitem"] = true;
-                }
-                if(bougu[b].enchant != en){
-                    eq["enchant"] = en;
-                }
-                eq["en"] = ui.selector["armor"][b+2]["enchant"];
-                
-                bougu[b].load(eq);
-         
+    buff = new BUFF();
+
+    for (var b = 0; b < this.bougu.length; b++) {
+
+        var eq = ui.selector["armor"][b + 2]["equip"].get_data();
+        var en = ui.selector["armor"][b + 2]["enchant"].get_value();
+        if (this.bougu[b]["name"] != eq["name"] || this.bougu[b].enchant != en) {
+            if (this.bougu[b]["name"] != eq["name"]) {
+
+                eq["changeitem"] = true;
             }
-   
-            
-            buff.effect += bougu[b].op.effect;
-            buff.effect += bougu[b].op2.effect;
-            buff.PVP += bougu[b].op.PVP + bougu[b].op2.PVP;
-            
-        }
-        
-
-
-
-        /////////////////////////////////
-
-
-
-
-
-
-
-        /////////////////////////////////
-
-        for (var i = 0; i < 6; i++) {
-           // buff.ST[i] += buki.op.ST[i] + buki2.op.ST[i];
-           for (var b = 0;b < bougu.length;b++) {
-                buff.ST[i] += bougu[b].op.ST[i] + bougu[b].op2.ST[i];
+            if (this.bougu[b].enchant != en) {
+                eq["enchant"] = en;
             }
-            console.log(buff.ST);
-            _ST[ENCHANT][i] = buff.ST[i];
+            eq["en"] = ui.selector["armor"][b + 2]["enchant"];
+
+            this.bougu[b].load(eq);
+
         }
 
 
-var str = _ST[BASE][STR] + _ST[REM][STR] + _ST[LEVEL][STR]
-+ _ST[ENCHANT][STR] + _ST[ELIXIR][STR];
-var pure_str = _ST[BASE][STR] + _ST[REM][STR]
-+ _ST[LEVEL][STR] + _ST[ELIXIR][STR];
+        buff.effect += this.bougu[b].op.effect;
+        buff.effect += this.bougu[b].op2.effect;
+        buff.PVP += this.bougu[b].op.PVP + this.bougu[b].op2.PVP;
 
-var dex = _ST[BASE][DEX] + _ST[REM][DEX] + _ST[LEVEL][DEX]
-+ _ST[ENCHANT][DEX] + _ST[ELIXIR][DEX];
-var pure_dex = _ST[BASE][DEX] + _ST[REM][DEX]
-+ _ST[LEVEL][DEX] + _ST[ELIXIR][DEX];
-
-var _int = _ST[BASE][INT] + _ST[REM][INT] + _ST[LEVEL][INT]
-+ _ST[ENCHANT][INT] + _ST[ELIXIR][INT];
-var pure_int = _ST[BASE][INT] + _ST[REM][INT]
-+ _ST[LEVEL][INT] + _ST[ELIXIR][INT];
-console.log(_ST);
-console.log(dex);
     }
 
 
-    this.rem_reset = function() {
-        clsnum = CLASS_LIST.indexOf(cls);
 
-        _rem = rem_data[clsnum];
-        if (ui.selector["lab_rem"] != null) {
-            ui.selector["lab_rem"].put_value(_rem);
+
+    /////////////////////////////////
+
+
+
+
+
+
+
+    /////////////////////////////////
+
+    for (var i = 0; i < 6; i++) {
+        // buff.ST[i] += buki.op.ST[i] + buki2.op.ST[i];
+        for (var b = 0; b < this.bougu.length; b++) {
+            buff.ST[i] += this.bougu[b].op.ST[i] + this.bougu[b].op2.ST[i];
         }
-        
-        for (var i = 0; i < ST_LIST.length; i++) {
-            _ST[REM][i] = 0;
-            ui.selector["st"][REM][i].put_value(0);
-            _ST[BASE][i] = st_data[clsnum][BASE][i];
-            ui.selector["st"][BASE][i].put_value(st_data[clsnum][BASE][i]);
-        }
-    
+        _ST[ENCHANT][i] = buff.ST[i];
     }
-    this.initialize();
+
+
+    var str = _ST[BASE][STR] + _ST[REM][STR] + _ST[LEVEL][STR] +
+        _ST[ENCHANT][STR] + _ST[ELIXIR][STR];
+    var pure_str = _ST[BASE][STR] + _ST[REM][STR] +
+        _ST[LEVEL][STR] + _ST[ELIXIR][STR];
+
+    var dex = _ST[BASE][DEX] + _ST[REM][DEX] + _ST[LEVEL][DEX] +
+        _ST[ENCHANT][DEX] + _ST[ELIXIR][DEX];
+    var pure_dex = _ST[BASE][DEX] + _ST[REM][DEX] +
+        _ST[LEVEL][DEX] + _ST[ELIXIR][DEX];
+
+    var _int = _ST[BASE][INT] + _ST[REM][INT] + _ST[LEVEL][INT] +
+        _ST[ENCHANT][INT] + _ST[ELIXIR][INT];
+    var pure_int = _ST[BASE][INT] + _ST[REM][INT] +
+        _ST[LEVEL][INT] + _ST[ELIXIR][INT];
+    console.log(_ST);
+    console.log(dex);
 }
 
-calculator  =  new Calculator();
+
+Calculator.prototype.rem_reset = function () {
+    var clsnum = CLASS_LIST.indexOf(this.cls);
+
+
+    this._rem = rem_data[clsnum];
+    if (ui.selector["lab_rem"] != null) {
+        ui.selector["lab_rem"].put_value(this._rem);
+    }
+
+    for (var i = 0; i < ST_LIST.length; i++) {
+        _ST[REM][i] = 0;
+        ui.selector["st"][REM][i].put_value(0);
+        _ST[BASE][i] = st_data[clsnum][BASE][i];
+        ui.selector["st"][BASE][i].put_value(st_data[clsnum][BASE][i]);
+    }
+
+}
+
 /*
 public class Calculator implements Common {
 
