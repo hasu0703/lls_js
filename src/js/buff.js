@@ -1,14 +1,14 @@
-function BUFF(){
-this.reset();
-        //int[] ailment = new int[AILMENT_LIST.length];
+function BUFF() {
+    this.reset();
+    //int[] ailment = new int[AILMENT_LIST.length];
 
 }
-BUFF.prototype.reset = function(){
-    this.AC = 0;    //アーマークラス 
-    this.ST = [0,0,0,0,0,0];
-    this.element_resist = [0,0,0,0];
-    this.ELEM_DMG_SHORT = [0,0,0,0];
-    this.ELEM_DMG_LONG  = [0,0,0,0];
+BUFF.prototype.reset = function() {
+    this.AC = 0; //アーマークラス 
+    this.ST = [0, 0, 0, 0, 0, 0];
+    this.element_resist = [0, 0, 0, 0];
+    this.ELEM_DMG_SHORT = [0, 0, 0, 0];
+    this.ELEM_DMG_LONG = [0, 0, 0, 0];
 
     this.HP = 0;
     this.MP = 0;
@@ -33,21 +33,21 @@ BUFF.prototype.reset = function(){
 
     this.PVP = 0;
     this.PVPDR = 0;
-    this.ailment = [0,0,0,0,0];
+    this.ailment = [0, 0, 0, 0, 0];
 }
 
-BUFF.prototype.checkEnchant = function(reader){
-    switch(reader["type"]){
+BUFF.prototype.checkEnchant = function(reader) {
+    switch (reader["type"]) {
         case "リング":
         case "アミュレット":
         case "イアリング":
         case "ベルト":
-            if(reader["enchant"]!=null && reader["enchanted"] != null){
+            if (reader["enchant"] != null && reader["enchanted"] != null) {
                 this.EnchantOption(reader);
             }
             break;
         default:
-       
+
             this.AC -= reader["en"].get_value();
             this.MR = reader["MR強化"] * reader["en"].get_value();
             break;
@@ -55,18 +55,18 @@ BUFF.prototype.checkEnchant = function(reader){
     }
 }
 
-BUFF.prototype.EnchantOption = function(reader){
-console.log(reader["enchanted"]);
-if(reader["enchanted"]["type"] == "overwirte"){
-    for(i in reader["enchanted"]["enchant"][reader["enchant"]]){
-        console.log(i);
+BUFF.prototype.EnchantOption = function(reader) {
+    console.log(reader["enchanted"]);
+    if (reader["enchanted"]["type"] == "overwirte") {
+        for (i in reader["enchanted"]["enchant"][reader["enchant"]]) {
+            console.log(i);
+        }
+        this.loadoption(reader["enchanted"]["enchant"][reader["enchant"]]);
     }
-    this.loadoption(reader["enchanted"]["enchant"][reader["enchant"]]);
-}
 }
 
-BUFF.prototype.loadoption = function(reader){
-    if(reader == null)return;
+BUFF.prototype.loadoption = function(reader) {
+    if (reader == null) return;
     if (reader["AC"] != null) {
         this.AC = parseInt(reader["AC"]);
     }
@@ -177,5 +177,8 @@ BUFF.prototype.loadoption = function(reader){
     }
     if (reader["PVP"] != null) {
         this.PVP = parseInt(reader["PVP"]);
+    }
+    if (reader["PVPDR"] != null) {
+        this.PVPDR = parseInt(reader["PVPDR"]);
     }
 }

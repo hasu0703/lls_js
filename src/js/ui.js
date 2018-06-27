@@ -9,12 +9,12 @@ function Uibasic(id) {
 
     this.initialize(id);
 }
-Uibasic.prototype.initialize = function (id) {
+Uibasic.prototype.initialize = function(id) {
 
     this.selector = document.getElementById(id);
 }
 
-Uibasic.prototype.get_value = function () {
+Uibasic.prototype.get_value = function() {
     tagname = this.selector.tagName;
     id = this.selector.getAttribute("id");
     switch (tagname) {
@@ -30,7 +30,7 @@ Uibasic.prototype.get_value = function () {
     return this.value;
 }
 
-Uibasic.prototype.put_value = function (val) {
+Uibasic.prototype.put_value = function(val) {
     if (val == null) {
         val = this.value;
     }
@@ -61,24 +61,24 @@ function UiPart(id) {
 }
 UiPart.prototype = new Uibasic();
 
-function UiSelect(id){
+function UiSelect(id) {
     Uibasic.call(this, id);
 }
 UiSelect.prototype = new Uibasic();
-UiSelect.prototype.set_option = function(min,max,selected){
-    if(min == null)min = 0;
-    if(max == null)max = 10;
+UiSelect.prototype.set_option = function(min, max, selected) {
+    if (min == null) min = 0;
+    if (max == null) max = 10;
     this.selector.innerHTML = "";
     for (var i = min; i <= max; i++) {
         var option_add = document.createElement("option");
-        if(selected == i){
+        if (selected == i) {
             option_add.setAttribute("selected", "selected"); // option ⇒ option_add
         }
         option_add.setAttribute("value", i); // option ⇒ option_add
         option_add.innerHTML = i; // option ⇒ option_add
 
         this.selector.appendChild(option_add);
-    }   
+    }
 }
 
 function UiEquip(id) {
@@ -89,10 +89,10 @@ function UiEquip(id) {
 
 }
 UiEquip.prototype = new Uibasic();
-UiEquip.prototype.enchantname = function () {
+UiEquip.prototype.enchantname = function() {
     return this.eqtype_id + "_enchant";
 }
-UiEquip.prototype.get_data = function () {
+UiEquip.prototype.get_data = function() {
     var v = this.get_value();
 
     lists = EQ_JSON[this.eqtype_name];
@@ -111,7 +111,7 @@ function Uitable(id) {
     this.isOverflow = [];
     this.get_table(0);
 }
-Uitable.prototype.get_table = function (level) {
+Uitable.prototype.get_table = function(level) {
     this.size = level;
     this.reset_table(level);
     this.field = [];
@@ -128,7 +128,7 @@ Uitable.prototype.get_table = function (level) {
 
 
 }
-Uitable.prototype.reset_table = function (lv) {
+Uitable.prototype.reset_table = function(lv) {
     for (var i = 51; i < MAXLV; i++) {
         var input = document.getElementsByName("lv" + i);
         for (var r = 0; r < input.length; r++) {
@@ -146,7 +146,7 @@ Uitable.prototype.reset_table = function (lv) {
 function Ui() {
     this.selector = [];
 }
-Ui.prototype.init = function () {
+Ui.prototype.init = function() {
     this.loadEquip();
     //mem.clear();
     //mem.load_from_mem(cb_eq_ch.getSelectedIndex());
@@ -154,7 +154,7 @@ Ui.prototype.init = function () {
 
 }
 
-Ui.prototype.loadEquip = function () {
+Ui.prototype.loadEquip = function() {
     var cb_cls = this.selector["cb_cls"].get_value();
 
 
@@ -185,7 +185,7 @@ var ui = new Ui();
 
 
 
-window.onload = function () {
+window.onload = function() {
     UiTab(["tab_statuseqiup", "tab_levelelixir"]);
     UiPanel(["character", "status", "eqiup"], "tab_statuseqiup");
     output_classlist("character");
@@ -212,14 +212,19 @@ window.onload = function () {
             jsons[EQ_LIST[i]] = [];
             var dir = "./data/equip/" + EQ_LIST[i];
             var files = fs.readdirSync(dir);
-            files.forEach(function (file) {
+            files.forEach(function(file) {
                 var path = dir + '/' + file;
                 var json = JSON.parse(fs.readFileSync(path, 'utf8'));
-                
-                switch(json["type"]){
+
+                switch (json["type"]) {
                     case "リング":
                         json["enchanted"] = enchanted["ring"];
-                    break;
+                    case "ベルト":
+                        json["enchanted"] = enchanted["belt"];
+                        break;
+                    case "アミュレット":
+                    case "イヤリング":
+                        json["enchanted"] = enchanted["amulet"];
                     default:
 
                 }
