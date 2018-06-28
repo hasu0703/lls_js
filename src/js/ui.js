@@ -204,18 +204,27 @@ window.onload = function() {
     calc.rem_reset();
 
     if (is_test == false) {
+        var en_jsons = {};
+        for (var i in EQ_LIST) {
+            en_jsons[EQ_LIST[i]] = [];
+            var dir = "./data/enchanted/" + EQ_LIST[i];
+            var files = fs.readdirSync(dir);
+            files.forEach(function(file) {
+                var path = dir + '/' + file;
+                var enchantedjson = JSON.parse(fs.readFileSync(path, 'utf8'));                
+                //en_jsons[EQ_LIST[i]].push(enchantedjson);
+                en_jsons[EQ_LIST[i]][enchantedjson["name"]] = enchantedjson;
+            });
+        }
 
         var jsons = {};
         for (var i in EQ_LIST) {
-
-
             jsons[EQ_LIST[i]] = [];
             var dir = "./data/equip/" + EQ_LIST[i];
             var files = fs.readdirSync(dir);
             files.forEach(function(file) {
                 var path = dir + '/' + file;
                 var json = JSON.parse(fs.readFileSync(path, 'utf8'));
-
                 switch (json["type"]) {
                     case "リング":
                         json["enchanted"] = enchanted["ring"];
@@ -226,14 +235,18 @@ window.onload = function() {
                     case "イヤリング":
                         json["enchanted"] = enchanted["amulet"];
                     default:
-
                 }
-                console.log(json);
+                if(en_jsons[EQ_LIST[i]][json["name"]] != null){
+
+                    json["enchanted"] = en_jsons[EQ_LIST[i]][json["name"]];
+                }
+                
                 jsons[EQ_LIST[i]].push(json);
             });
-
+     
 
         }
+        //console.log(jsons);
 
         var savejson = JSON.stringify(jsons, null, " ");
         var save_script = "var equipjson = " + savejson + ";";

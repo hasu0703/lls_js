@@ -50,17 +50,18 @@ BUFF.prototype.checkEnchant = function(reader) {
 
             this.AC -= reader["en"].get_value();
             this.MR = reader["MR強化"] * reader["en"].get_value();
+            if (reader["enchant"] != null && reader["enchanted"] != null) {
+                this.EnchantOption(reader);
+            }
             break;
 
     }
 }
 
 BUFF.prototype.EnchantOption = function(reader) {
-    console.log(reader["enchanted"]);
+    //console.log(reader["enchanted"]);
     if (reader["enchanted"]["type"] == "overwirte") {
-        for (i in reader["enchanted"]["enchant"][reader["enchant"]]) {
-            console.log(i);
-        }
+
         this.loadoption(reader["enchanted"]["enchant"][reader["enchant"]]);
     }
 }
