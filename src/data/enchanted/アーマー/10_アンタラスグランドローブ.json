@@ -1,0 +1,8 @@
+{
+    "name": "アンタラスグランドローブ",
+    "type": "thereafter",
+    "base_enchant": 6,
+    "enchant_op":{
+        "DR":1
+    }
+}

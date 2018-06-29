@@ -60,7 +60,7 @@ Bougu.prototype.load = function(reader){
     this.op2.checkEnchant(reader);
     reader["changeitem"] = null;
     reader["en"]  = null;
-    //console.log(this.op2);
+    console.log(this.op2);
     
     this.op.loadoption(reader);
 }
@@ -219,145 +219,7 @@ public class Bougu implements Common {
 
         op2 = new Buff();
 
-        if (name.contains("テイパーガーダー")) {
-            if (name.contains("腕力")) {
-                switch (enchant) {
-                    case 5:
-                        op2.HIT_SHORT = 1;
-                        break;
-                    case 6:
-                        op2.HIT_SHORT = 2;
-                        op2.DMG_SHORT = 1;
-                        break;
-                    case 7:
-                        op2.HIT_SHORT = 2;
-                        op2.DMG_SHORT = 1;
-                        op2.ST[STR] = 1;
-                        break;
-                    case 8:
-                        op2.HIT_SHORT = 2;
-                        op2.DMG_SHORT = 2;
-                        op2.ST[STR] = 1;
-                        op2.PVP = 1;
-                        break;
-                    case 9:
-                        op2.HIT_SHORT = 3;
-                        op2.DMG_SHORT = 3;
-                        op2.ST[STR] = 1;
-                        op2.PVP = 2;
-                        break;
-                }
-            }
-            if (name.contains("機敏")) {
-                switch (enchant) {
-                    case 5:
-                        op2.HIT_LONG = 1;
-                        break;
-                    case 6:
-                        op2.HIT_LONG = 2;
-                        op2.DMG_LONG = 1;
-                        break;
-                    case 7:
-                        op2.HIT_LONG = 2;
-                        op2.DMG_LONG = 1;
-                        op2.ST[DEX] = 1;
-                        break;
-                    case 8:
-                        op2.HIT_LONG = 2;
-                        op2.DMG_LONG = 2;
-                        op2.ST[DEX] = 1;
-                        op2.PVP = 1;
-                        break;
-                    case 9:
-                        op2.HIT_LONG = 3;
-                        op2.DMG_LONG = 3;
-                        op2.ST[DEX] = 1;
-                        op2.PVP = 2;
-                        break;
-                }
-            }
-            if (name.contains("知力")) {
-                switch (enchant) {
-                    case 5:
-                        op2.MPR = 2;
-                        break;
-                    case 6:
-                        op2.MPR = 2;
-                        op2.SP = 1;
-                        break;
-                    case 7:
-                        op2.MPR = 4;
-                        op2.SP = 1;
-                        op2.ST[INT] = 1;
-                        break;
-                    case 8:
-                        op2.MPR = 4;
-                        op2.SP = 2;
-                        op2.ST[INT] = 1;
-                        op2.PVP = 1;
-                        break;
-                    case 9:
-                        op2.MPR = 6;
-                        op2.SP = 3;
-                        op2.ST[INT] = 1;
-                        op2.PVP = 2;
-                        break;
-                }
-            }
-        }
 
-
-        if (name.equals("古代弓射手のガーダー")) {
-            if (enchant >= 9) {
-                op2.DMG_LONG = 3;
-            } else if (enchant >= 7) {
-                op2.DMG_LONG = 2;
-            } else if (enchant >= 5) {
-                op2.DMG_LONG = 1;
-            }
-        }
-        if (name.equals("古代闘士のガーダー")) {
-            if (enchant >= 9) {
-                op2.DMG_SHORT = 3;
-            } else if (enchant >= 7) {
-                op2.DMG_SHORT = 2;
-            } else if (enchant >= 5) {
-                op2.DMG_SHORT = 1;
-            }
-        }
-        if (name.equals("体力のガーダー")) {
-            if (enchant >= 9) {
-                op2.HP = 75;
-            } else if (enchant >= 7) {
-                op2.HP = 50;
-            } else if (enchant >= 5) {
-                op2.HP = 25;
-            }
-        }
-        if (name.equals("守護のガーダー")) {
-            if (enchant >= 9) {
-                op2.DR = 3;
-            } else if (enchant >= 7) {
-                op2.DR = 2;
-            } else if (enchant >= 5) {
-                op2.DR = 1;
-            }
-        }
-        if (name.equals("ウィザードのガーダー")) {
-            if (enchant >= 9) {
-                op2.SP = 3;
-            } else if (enchant >= 7) {
-                op2.SP = 2;
-            } else if (enchant >= 5) {
-                op2.SP = 1;
-            }
-        }
-
-        if (name.contains("アンタラスグランド")) {
-            if (enchant > 6) {
-                op2.DR += enchant - 6;
-            }
-        }
 
         if (name.equals("輝く魔力のグローブ")) {
             if (enchant > 4) {

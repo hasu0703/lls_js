@@ -50,6 +50,7 @@ BUFF.prototype.checkEnchant = function(reader) {
 
             this.AC -= reader["en"].get_value();
             this.MR = reader["MR強化"] * reader["en"].get_value();
+            
             if (reader["enchant"] != null && reader["enchanted"] != null) {
                 this.EnchantOption(reader);
             }
@@ -59,127 +60,147 @@ BUFF.prototype.checkEnchant = function(reader) {
 }
 
 BUFF.prototype.EnchantOption = function(reader) {
-    //console.log(reader["enchanted"]);
+    console.log(reader["enchanted"]);
     if (reader["enchanted"]["type"] == "overwirte") {
-
         this.loadoption(reader["enchanted"]["enchant"][reader["enchant"]]);
+    }
+    if (reader["enchanted"]["type"] == "append") {
+        console.log(reader["enchanted"]);
+        for(var i = 0 ; i<=reader["enchant"];i++){
+           
+            if(reader["enchanted"]["enchant"][i] !=null){
+                this.loadoption(reader["enchanted"]["enchant"][i],true);
+                
+            }
+        }    
+    }
+    if (reader["enchanted"]["type"] == "thereafter") {
+        if(reader["enchanted"]["base_enchant"] != null && reader["enchanted"]["base_enchant"] <= reader["enchant"]){
+            if(reader["enchanted"]["base_op"] != null){
+                this.loadoption(reader["enchanted"]["base_op"],true);
+            }
+            for(var i = reader["enchanted"]["base_enchant"] ; i<=reader["enchant"];i++){
+                this.loadoption(reader["enchanted"]["enchant_op"],true);
+            }
+        }
     }
 }
 
-BUFF.prototype.loadoption = function(reader) {
+BUFF.prototype.loadoption = function(reader,append) {
     if (reader == null) return;
+
     if (reader["AC"] != null) {
-        this.AC = parseInt(reader["AC"]);
+        this.AC += parseInt(reader["AC"]);
     }
     if (reader["STR"] != null) {
-        this.ST[STR] = parseInt(reader["STR"]);
+        this.ST[STR] += parseInt(reader["STR"]);
     }
     if (reader["DEX"] != null) {
-        this.ST[DEX] = parseInt(reader["DEX"]);
+        this.ST[DEX] += parseInt(reader["DEX"]);
     }
     if (reader["CON"] != null) {
-        this.ST[CON] = parseInt(reader["CON"]);
+        this.ST[CON] += parseInt(reader["CON"]);
     }
     if (reader["INT"] != null) {
-        this.ST[INT] = parseInt(reader["INT"]);
+        this.ST[INT] += parseInt(reader["INT"]);
     }
     if (reader["WIS"] != null) {
-        this.ST[WIS] = parseInt(reader["WIS"]);
+        this.ST[WIS] += parseInt(reader["WIS"]);
     }
     if (reader["CHA"] != null) {
-        this.ST[CHA] = parseInt(reader["CHA"]);
+        this.ST[CHA] += parseInt(reader["CHA"]);
     }
     if (reader["FIRE"] != null) {
-        this.element_resist[FIRE] = parseInt(reader["FIRE"]);
+        this.element_resist[FIRE] += parseInt(reader["FIRE"]);
     }
     if (reader["EARTH"] != null) {
-        this.element_resist[EARTH] = parseInt(reader["EARTH"]);
+        this.element_resist[EARTH] += parseInt(reader["EARTH"]);
     }
     if (reader["WIND"] != null) {
-        this.element_resist[WIND] = parseInt(reader["WIND"]);
+        this.element_resist[WIND] += parseInt(reader["WIND"]);
     }
     if (reader["WATER"] != null) {
-        this.element_resist[WATER] = parseInt(reader["WATER"]);
+        this.element_resist[WATER] += parseInt(reader["WATER"]);
     }
     if (reader["HP"] != null) {
-        this.HP = parseInt(reader["HP"]);
+        this.HP += parseInt(reader["HP"]);
     }
     if (reader["MP"] != null) {
-        this.MP = parseInt(reader["MP"]);
+        this.MP += parseInt(reader["MP"]);
     }
     if (reader["HPR"] != null) {
-        this.HPR = parseInt(reader["HPR"]);
+        this.HPR += parseInt(reader["HPR"]);
     }
     if (reader["MPR"] != null) {
-        this.MPR = parseInt(reader["MPR"]);
+        this.MPR += parseInt(reader["MPR"]);
     }
     if (reader["追加打撃"] != null) {
-        this.DMG_SHORT = parseInt(reader["追加打撃"]);
+        this.DMG_SHORT += parseInt(reader["追加打撃"]);
     }
     if (reader["弓打撃値"] != null) {
-        this.DMG_LONG = parseInt(reader["弓打撃値"]);
+        this.DMG_LONG += parseInt(reader["弓打撃値"]);
     }
     if (reader["攻撃成功"] != null) {
-        this.HIT_SHORT = parseInt(reader["攻撃成功"]);
+        this.HIT_SHORT += parseInt(reader["攻撃成功"]);
     }
     if (reader["弓命中率"] != null) {
-        this.HIT_LONG = parseInt(reader["弓命中率"]);
+        this.HIT_LONG += parseInt(reader["弓命中率"]);
     }
     if (reader["魔法命中"] != null) {
-        this.HIT_MAGIC = parseInt(reader["魔法命中"]);
+        this.HIT_MAGIC += parseInt(reader["魔法命中"]);
     }
     if (reader["SP"] != null) {
-        this.SP = parseInt(reader["SP"]);
+        this.SP += parseInt(reader["SP"]);
     }
     if (reader["DR"] != null) {
-        this.DR = parseInt(reader["DR"]);
+        this.DR += parseInt(reader["DR"]);
     }
     if (reader["MR"] != null) {
-        this.MR = parseInt(reader["MR"]);
+        this.MR += parseInt(reader["MR"]);
     }
     if (reader["重量軽減"] != null) {
-        this.r_weight = parseInt(reader["重量軽減"]);
+        this.r_weight += parseInt(reader["重量軽減"]);
     }
     if (reader["所持重量"] != null) {
-        this.c_weight = parseInt(reader["所持重量"]);
+        this.c_weight += parseInt(reader["所持重量"]);
     }
     if (reader["特殊"] != null) {
-        this.effect = parseInt(reader["特殊"]);
+        this.effect += parseInt(reader["特殊"]);
     }
     if (reader["スタン"] != null) {
-        this.ailment[STUN] = parseInt(reader["スタン"]);
+        this.ailment[STUN] += parseInt(reader["スタン"]);
     }
     if (reader["暗闇"] != null) {
-        this.ailment[DARKNESS] = parseInt(reader["暗闇"]);
+        this.ailment[DARKNESS] += parseInt(reader["暗闇"]);
     }
     if (reader["ホールド"] != null) {
-        this.ailment[HOLD] = parseInt(reader["ホールド"]);
+        this.ailment[HOLD] += parseInt(reader["ホールド"]);
     }
     if (reader["凍結"] != null) {
-        this.ailment[FREEZE] = parseInt(reader["凍結"]);
+        this.ailment[FREEZE] += parseInt(reader["凍結"]);
     }
     if (reader["石化"] != null) {
-        this.ailment[STONE] = parseInt(reader["石化"]);
+        this.ailment[STONE] += parseInt(reader["石化"]);
     }
     if (reader["睡眠"] != null) {
-        this.ailment[SLEEP] = parseInt(reader["睡眠"]);
+        this.ailment[SLEEP] += parseInt(reader["睡眠"]);
     }
     if (reader["恐怖"] != null) {
-        this.ailment[TERROR] = parseInt(reader["恐怖"]);
+        this.ailment[TERROR] += parseInt(reader["恐怖"]);
     }
     if (reader["近距離クリティカル"] != null) {
-        this.CRI_SHORT = parseInt(reader["近距離クリティカル"]);
+        this.CRI_SHORT += parseInt(reader["近距離クリティカル"]);
     }
     if (reader["遠距離クリティカル"] != null) {
-        this.CRI_LONG = parseInt(reader["遠距離クリティカル"]);
+        this.CRI_LONG += parseInt(reader["遠距離クリティカル"]);
     }
     if (reader["魔法クリティカル"] != null) {
-        this.CRI_MAGIC = parseInt(reader["魔法クリティカル"]);
+        this.CRI_MAGIC += parseInt(reader["魔法クリティカル"]);
     }
     if (reader["PVP"] != null) {
-        this.PVP = parseInt(reader["PVP"]);
+        this.PVP += parseInt(reader["PVP"]);
     }
     if (reader["PVPDR"] != null) {
-        this.PVPDR = parseInt(reader["PVPDR"]);
+        this.PVPDR += parseInt(reader["PVPDR"]);
     }
 }

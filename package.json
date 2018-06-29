@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "nw building",
   "scripts": {
+    "start": "nodemon src/",
     "dev": "nw src/",
     "build": "nwbuild -p win32,win64,osx64,linux32,linux64 -o c:/ubu/build/ src/"
   },
@@ -11,5 +12,6 @@
     "nw-builder": "^3.5.4"
   },
   "repository": "nw",
-  "license": "MIT"
+  "license": "MIT",
+  "main": "index.html"
 }

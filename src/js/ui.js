@@ -272,7 +272,11 @@ window.onload = function() {
 
 
 function update_ui() {
-    console.log(calc);
+    console.log("st");
+    var a = "function(){console.log('ok')}";     
+    var b = Function.call(this ,"return "+a);
+    console.log(b);
+    b();
     //set_uidata(this);
     ui.loadEquip();
     calc.update();
