@@ -259,8 +259,7 @@ window.onload = function() {
 
     UiArmor("eqiup");
 
-
-    console.log(ui);
+  //  console.log(ui);
     var onupdates = document.getElementsByClassName('onupdate');
     for (i = 0; i < onupdates.length; i++) {
         onupdates[i].addEventListener("change", update_ui, false);
@@ -272,11 +271,7 @@ window.onload = function() {
 
 
 function update_ui() {
-    console.log("st");
-    var a = "function(){console.log('ok')}";     
-    var b = Function.call(this ,"return "+a);
-    console.log(b);
-    b();
+
     //set_uidata(this);
     ui.loadEquip();
     calc.update();

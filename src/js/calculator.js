@@ -511,7 +511,20 @@ Calculator.prototype.update = function () {
         buff.effect += this.bougu[b].op2.effect;
         buff.PVP += this.bougu[b].op.PVP + this.bougu[b].op2.PVP;
 
+
+
     }
+
+
+
+    //--------------------
+this.equip_ac = 0;
+console.log(this.bougu);
+for (var b = 0; b < this.bougu.length; b++) {
+    console.log(this.bougu[b]);
+           this.equip_ac += this.bougu[b].op.AC + this.bougu[b].op2.AC;
+        }
+    console.log(this.equip_ac);
 
 
 

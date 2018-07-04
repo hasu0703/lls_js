@@ -1,0 +1,8 @@
+{
+    "name": "光る魔力のグローブ",
+    "type": "thereafter",
+    "base_enchant": 5,
+    "enchant_op": {
+        "所持重量": 60
+    }
+}
