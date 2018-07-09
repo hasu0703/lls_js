@@ -226,25 +226,37 @@ function output_statuslist(id){
         var dd = document.createElement("dd");
         dd.setAttribute("id","sum_"+pid);
         dl.appendChild(dd);
+        /*
         var dd = document.createElement("dd");
         dd.setAttribute("id","minus_"+pid);
         dl.appendChild(dd);
         var dd = document.createElement("dd");
         dd.setAttribute("id","plus_"+pid);
         dl.appendChild(dd);
+        */
         var dd = document.createElement("dd");
         dd.setAttribute("id","base_"+pid);
         dl.appendChild(dd);   
         var dd = document.createElement("dd");
         dd.setAttribute("id","lv_"+pid);
         dl.appendChild(dd);  
+        
+        var select = document.createElement('select');
+        select.setAttribute('id', 'lv_st_' + pid);
+        select.setAttribute('class', 'onupdate');
+        dd.appendChild(select); 
+
         var dd = document.createElement("dd");
         dd.setAttribute("id","rem_"+pid);
         dl.appendChild(dd);  
+        var select = document.createElement('select');
+        select.setAttribute('id', 'rem_st_' + pid);
+        select.setAttribute('class', 'onupdate');
+        dd.appendChild(select); 
         cl.appendChild(dl);
         ST[0][i] = new UiPart("base_"+pid);
-        ST[1][i] = new UiPart("rem_"+pid);
-        ST[2][i] = new UiPart("lv_"+pid);
+        ST[1][i] = new UiSelect("rem_st_"+pid);
+        ST[2][i] = new UiSelect("lv_st_"+pid);
     }
     var dl = document.createElement("dl");
     var dt = document.createElement("dt");

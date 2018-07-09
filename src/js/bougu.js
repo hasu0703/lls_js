@@ -60,7 +60,7 @@ Bougu.prototype.load = function(reader){
     this.op2.checkEnchant(reader);
     reader["changeitem"] = null;
     reader["en"]  = null;
-    console.log(this.op2);
+    //console.log(this.op2);
     
     this.op.loadoption(reader);
 }

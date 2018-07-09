@@ -181,6 +181,16 @@ Ui.prototype.loadEquip = function() {
     }
 }
 
+Ui.prototype.update = function(){
+    for(i in this.selector){
+        var part = this.selector[i];
+        console.log(part);
+       if(typeof part.put_value == "function"){
+           part.put_value();
+       }
+    }
+}
+
 var ui = new Ui();
 
 
@@ -275,5 +285,5 @@ function update_ui() {
     //set_uidata(this);
     ui.loadEquip();
     calc.update();
-
+   // ui.update();
 }

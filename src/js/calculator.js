@@ -295,7 +295,7 @@ function Calculator() {
 
     this.level = 1;
     this._rem = 0;
-
+    this.maxstatus = 45;
 
     this.base_dmg_short;
     this.base_dmg_long;
@@ -441,7 +441,60 @@ Calculator.prototype.update = function () {
             }
         }
     }
+    
+    var clsnum = CLASS_LIST.indexOf(this.cls);
+    var _rem = rem_data[clsnum];
 
+    var _point = this.level - 50;
+    if(_point < 0){_point = 0;}
+    for (var i = 0; i < ST_LIST.length; i++) {
+        _ST[REM][i] = ui.selector["st"][REM][i].get_value();
+        _rem -= parseInt(_ST[REM][i]);
+        _ST[LEVEL][i] = ui.selector["st"][LEVEL][i].get_value();
+        _point -= _ST[LEVEL][i];
+    }
+    this._rem = _rem;
+    if (ui.selector["lab_rem"] != null) {
+        ui.selector["lab_rem"].put_value(this._rem);
+    }
+    for (var i = 0; i < ST_LIST.length; i++) {
+        var selected = ui.selector["st"][REM][i].get_value();
+        var maxrem = 20 - _ST[BASE][i];
+        var st_rem  = _rem + parseInt(_ST[REM][i]);
+        if(st_rem < maxrem){
+            
+            maxrem = st_rem;
+        }
+        console.log("mrem"+maxrem);
+        ui.selector["st"][REM][i].set_option(0,maxrem,selected);
+    }
+    console.log(_ST);
+/*
+    for (var i = 0; i < ST_LIST.length; i++) {
+        _ST[REM][i] = 0;
+        console.log(this.level);
+        var ret = 20;
+        if(this._rem + st_data[clsnum][BASE][i] < ret){ret = this._rem + st_data[clsnum][BASE][i];}
+        console.log(ret);
+        ui.selector["st"][REM][i].set_option(0,(ret-st_data[clsnum][BASE][i]),0);
+
+        _ST[BASE][i] = st_data[clsnum][BASE][i];
+        
+        ret = 0;
+        if(this.level > 50){
+            ret = this.level - 50;
+        }
+       
+        
+
+        ui.selector["st"][BASE][i].put_value(st_data[clsnum][BASE][i]);
+        var ret = this.maxstatus - st_data[clsnum][BASE][i];
+
+    }
+    */
+
+    
+    /** レベルによるステータステーブル。（廃止）
     ui.selector["lev"].get_table(this.level);
     for (i = 51; i < ui.selector["lev"].size; i++) {
         var st = ST_LIST.indexOf(ui.selector["lev"].field[i]);
@@ -462,7 +515,7 @@ Calculator.prototype.update = function () {
 
     ui.selector["lev"].get_table(this.level);
     //   ui.lev.repaint();
-
+*/
 
     /*武器属性？
             for (int i = 0; i < ELEM_LIST.length; i++) {
@@ -519,12 +572,12 @@ Calculator.prototype.update = function () {
 
     //--------------------
 this.equip_ac = 0;
-console.log(this.bougu);
+//console.log(this.bougu);
 for (var b = 0; b < this.bougu.length; b++) {
-    console.log(this.bougu[b]);
+  //  console.log(this.bougu[b]);
            this.equip_ac += this.bougu[b].op.AC + this.bougu[b].op2.AC;
         }
-    console.log(this.equip_ac);
+  //  console.log(this.equip_ac);
 
 
 
@@ -564,6 +617,8 @@ for (var b = 0; b < this.bougu.length; b++) {
         _ST[LEVEL][INT] + _ST[ELIXIR][INT];
     console.log(_ST);
     console.log(dex);
+
+
 }
 
 
@@ -578,9 +633,24 @@ Calculator.prototype.rem_reset = function () {
 
     for (var i = 0; i < ST_LIST.length; i++) {
         _ST[REM][i] = 0;
-        ui.selector["st"][REM][i].put_value(0);
+        console.log(this.level);
+        var ret = 20;
+        if(this._rem + st_data[clsnum][BASE][i] < ret){ret = this._rem + st_data[clsnum][BASE][i];}
+        console.log(ret);
+        ui.selector["st"][REM][i].set_option(0,(ret-st_data[clsnum][BASE][i]),0);
+
         _ST[BASE][i] = st_data[clsnum][BASE][i];
+        
+        ret = 0;
+        if(this.level > 50){
+            ret = this.level - 50;
+        }
+       
+        
+
         ui.selector["st"][BASE][i].put_value(st_data[clsnum][BASE][i]);
+        var ret = this.maxstatus - st_data[clsnum][BASE][i];
+
     }
 
 }
