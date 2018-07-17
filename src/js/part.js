@@ -210,10 +210,10 @@ function  UiArmor(id){
 /**
  * ステータステーブル
  */
-function output_statuslist(id){
+function UiStatuslist(id){
     cl = document.getElementById(id);
     if (cl == null) return;
-    var ST = [[],[],[]];
+    var ST = [[],[],[],[]];
     var param = ["str", "dex", "int", "con","wis","cha"];
     for(i in param){
  
@@ -257,6 +257,7 @@ function output_statuslist(id){
         ST[0][i] = new UiPart("base_"+pid);
         ST[1][i] = new UiSelect("rem_st_"+pid);
         ST[2][i] = new UiSelect("lv_st_"+pid);
+        ST[3][i] = new UiPart("sum_"+pid);
     }
     var dl = document.createElement("dl");
     var dt = document.createElement("dt");
@@ -269,9 +270,11 @@ function output_statuslist(id){
     ui.selector["st"] = ST;
 
     ui.selector["lab_rem"] = new UiPart("lab_rem");
-
+    
 }
-
+UiStatuslist.prototype.update = function(){
+    console.log(this);
+}
  
 function output_levelbonus_html() {
     //levelbonusテーブル    

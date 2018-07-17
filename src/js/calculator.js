@@ -5,6 +5,7 @@ var REM = 1;
 var LEVEL = 2;
 var ENCHANT = 3;
 var ELIXIR = 4;
+var STSUM  = 5;
 
 var D_SHORT = 0;
 var H_SHORT = 1;
@@ -448,27 +449,44 @@ Calculator.prototype.update = function () {
     var _point = this.level - 50;
     if(_point < 0){_point = 0;}
     for (var i = 0; i < ST_LIST.length; i++) {
-        _ST[REM][i] = ui.selector["st"][REM][i].get_value();
+        _ST[REM][i] = parseInt(ui.selector["st"][REM][i].get_value());
         _rem -= parseInt(_ST[REM][i]);
-        _ST[LEVEL][i] = ui.selector["st"][LEVEL][i].get_value();
+        _ST[LEVEL][i] = parseInt(ui.selector["st"][LEVEL][i].get_value());
+        if(isNaN(_ST[LEVEL][i])){_ST[LEVEL][i] = 0;}
         _point -= _ST[LEVEL][i];
     }
     this._rem = _rem;
     if (ui.selector["lab_rem"] != null) {
         ui.selector["lab_rem"].put_value(this._rem);
     }
+    if(this.level < 90){
+        var maxpoint = 45;
+    }else{
+        var maxpoint = 50;
+    }
+
     for (var i = 0; i < ST_LIST.length; i++) {
         var selected = ui.selector["st"][REM][i].get_value();
         var maxrem = 20 - _ST[BASE][i];
         var st_rem  = _rem + parseInt(_ST[REM][i]);
         if(st_rem < maxrem){
-            
             maxrem = st_rem;
         }
-        console.log("mrem"+maxrem);
         ui.selector["st"][REM][i].set_option(0,maxrem,selected);
+        console.log(_ST);
+        var limitpoint = maxpoint - _ST[BASE][i] - _ST[REM][i]  - _ST[ELIXIR][i] ;
+        if(_point < limitpoint){limitpoint = _point;}
+        console.log(limitpoint);
+        ui.selector["st"][LEVEL][i].set_option(0,limitpoint,_ST[LEVEL][i]);
+/*
+        var limitpoint = maxpoint - _ST[BASE] + _ST[REM] + _ST[ELIXIR];
+        selected = ui.selector["st"][LEVEL][i].get_value();
+        if(selected > limitpoint){selected = 0;}
+        ui.selector["st"][LEVEL][i].set_option(0,ret,selected);*/
     }
-    console.log(_ST);
+    
+
+    
 /*
     for (var i = 0; i < ST_LIST.length; i++) {
         _ST[REM][i] = 0;
@@ -615,10 +633,13 @@ for (var b = 0; b < this.bougu.length; b++) {
         _ST[ENCHANT][INT] + _ST[ELIXIR][INT];
     var pure_int = _ST[BASE][INT] + _ST[REM][INT] +
         _ST[LEVEL][INT] + _ST[ELIXIR][INT];
-    console.log(_ST);
-    console.log(dex);
 
 
+    //ステータス合計値を反映
+    for (var i = 0; i < ST_LIST.length; i++) {
+        _ST[STSUM][i] =   _ST[BASE][i] + _ST[REM][i] + _ST[LEVEL][i] + _ST[ENCHANT][i] + _ST[ELIXIR][i];
+    ui.selector["st"][3].put_value(_ST[STSUM][i]);        
+    }
 }
 
 
@@ -633,10 +654,10 @@ Calculator.prototype.rem_reset = function () {
 
     for (var i = 0; i < ST_LIST.length; i++) {
         _ST[REM][i] = 0;
-        console.log(this.level);
+       
         var ret = 20;
         if(this._rem + st_data[clsnum][BASE][i] < ret){ret = this._rem + st_data[clsnum][BASE][i];}
-        console.log(ret);
+       
         ui.selector["st"][REM][i].set_option(0,(ret-st_data[clsnum][BASE][i]),0);
 
         _ST[BASE][i] = st_data[clsnum][BASE][i];
