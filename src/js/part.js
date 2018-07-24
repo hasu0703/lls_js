@@ -133,10 +133,13 @@ function output_levellist(id) {
     dl.appendChild(dd);
     cl.appendChild(dl);
     for (var i = 1; i < MAXLV; i++) {
-        var option_add = document.createElement("option");
-        option_add.setAttribute("value", i); // option ⇒ option_add
-        option_add.innerHTML = i; // option ⇒ option_add
-        select.appendChild(option_add);
+        if(i==1 || i>=50){
+            var option_add = document.createElement("option");
+            option_add.setAttribute("value", i); // option ⇒ option_add
+            option_add.innerHTML = i; // option ⇒ option_add
+            select.appendChild(option_add);
+        }
+
     }
     ui.selector["cb_lev"] = new UiPart("cb_lev");
 }
@@ -215,6 +218,7 @@ function UiStatuslist(id){
     if (cl == null) return;
     var ST = [[],[],[],[]];
     var param = ["str", "dex", "int", "con","wis","cha"];
+    this.st = [];
     for(i in param){
  
         var dl = document.createElement("dl");
@@ -259,6 +263,7 @@ function UiStatuslist(id){
         ST[2][i] = new UiSelect("lv_st_"+pid);
         ST[3][i] = new UiPart("sum_"+pid);
     }
+    this.st = ST;
     var dl = document.createElement("dl");
     var dt = document.createElement("dt");
     var dd = document.createElement("dd");
@@ -273,9 +278,64 @@ function UiStatuslist(id){
     
 }
 UiStatuslist.prototype.update = function(){
-    console.log(this);
+    for (var i = 0; i < ST_LIST.length; i++) {
+        _ST[REM][i]   = parseInt(this.st[REM][i].get_value());
+        _ST[LEVEL][i] = parseInt(this.st[LEVEL][i].get_value());
+        if(isNaN(_ST[LEVEL][i]))_ST[LEVEL][i]=0;
+        if(isNaN(_ST[REM][i]))_ST[REM][i]=0;
+    }
+    
+
 }
- 
+
+UiStatuslist.prototype.sum = function(param){
+    var ret = 0;
+    if(_ST[param][0] == undefined)return 0;
+    for (var i = 0; i < ST_LIST.length; i++) {
+        ret += _ST[param][i];
+    }
+    return ret;
+
+}
+UiStatuslist.prototype.rem = function(level,rem){
+    if(level < 90){
+        var maxpoint = 45;
+    }else{
+        var maxpoint = 50;
+    }
+    for (var i = 0; i < ST_LIST.length; i++) {
+        var remmax = rem + _ST[REM][i];
+        if(remmax>20)remmax=20;
+        var _max = remmax + _ST[BASE][i] + _ST[LEVEL][i] + _ST[ELIXIR][i];
+        if(maxpoint < _max)remmax = maxpoint - _ST[BASE][i] - _ST[LEVEL][i] - _ST[ELIXIR][i];
+        this.st[REM][i].set_option(0,remmax,_ST[REM][i]);  
+    }
+}
+
+UiStatuslist.prototype.level = function(level){
+
+    if(level < 90){
+        var maxpoint = 45;
+    }else{
+        var maxpoint = 50;
+    }
+    if(level > 50){
+        var point = level - 50;
+    }else{
+        var point = 0;
+    }
+    
+    for (var i = 0; i < ST_LIST.length; i++) {
+        var _status = _ST[BASE][i] + _ST[REM][i] + _ST[ELIXIR][i];
+        var rempoint = maxpoint - _status;
+        var usepoint = this.sum(LEVEL) - _ST[LEVEL][i];
+        if(point - usepoint < rempoint)rempoint = point - usepoint;
+
+        this.st[LEVEL][i].set_option(0,rempoint,_ST[LEVEL][i]);
+
+    }
+
+}
 function output_levelbonus_html() {
     //levelbonusテーブル    
     var table = document.getElementById("bonustable");

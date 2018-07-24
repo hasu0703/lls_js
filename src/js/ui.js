@@ -200,7 +200,7 @@ window.onload = function() {
     UiPanel(["character", "status", "eqiup"], "tab_statuseqiup");
     output_classlist("character");
     output_levellist("character");
-    uistatuslist = new UiStatuslist("status");
+    calc.status = new UiStatuslist("status");
     
     UiPanel(["levelbonus", "elixirbonus"], "tab_levelelixir");
     UiElement("table", "levelbonus", {
@@ -282,9 +282,10 @@ window.onload = function() {
 
 function update_ui() {
 
-    //set_uidata(this);
+
     ui.loadEquip();
-    uistatuslist.update();
+
+    calc.status.update();
     calc.update();
-   // ui.update();
+   
 }

@@ -34,7 +34,7 @@ var MP_POT = 2;
 var MR = 3;
 
 var _ST = [];
-for (i = 0; i < 5; i++) {
+for (i = 0; i <= 5; i++) {
     _ST[i] = [];
 }
 var _C = [];
@@ -423,15 +423,12 @@ Calculator.prototype.update = function () {
         }
         */
     }
-    /*
-    level = ui.cb_lev.getSelectedIndex() + 1;
-    ui.lev.level = level;
-    */
+  
 
     this.level = ui.selector["cb_lev"].get_value();
 
     for (i = 0; i < 6; i++) {
-        _ST[LEVEL][i] = 0;
+       // _ST[LEVEL][i] = 0;
         _ST[ELIXIR][i] = 0;
     }
     for (i = 0; i < 5; i++) {
@@ -445,95 +442,17 @@ Calculator.prototype.update = function () {
     
     var clsnum = CLASS_LIST.indexOf(this.cls);
     var _rem = rem_data[clsnum];
-
     var _point = this.level - 50;
     if(_point < 0){_point = 0;}
-    for (var i = 0; i < ST_LIST.length; i++) {
-        _ST[REM][i] = parseInt(ui.selector["st"][REM][i].get_value());
-        _rem -= parseInt(_ST[REM][i]);
-        _ST[LEVEL][i] = parseInt(ui.selector["st"][LEVEL][i].get_value());
-        if(isNaN(_ST[LEVEL][i])){_ST[LEVEL][i] = 0;}
-        _point -= _ST[LEVEL][i];
-    }
+    _point -= this.status.sum(LEVEL);
+    _rem   -= this.status.sum(REM);
     this._rem = _rem;
     if (ui.selector["lab_rem"] != null) {
         ui.selector["lab_rem"].put_value(this._rem);
     }
-    if(this.level < 90){
-        var maxpoint = 45;
-    }else{
-        var maxpoint = 50;
-    }
+this.status.rem(this.level,_rem);
+this.status.level(this.level);
 
-    for (var i = 0; i < ST_LIST.length; i++) {
-        var selected = ui.selector["st"][REM][i].get_value();
-        var maxrem = 20 - _ST[BASE][i];
-        var st_rem  = _rem + parseInt(_ST[REM][i]);
-        if(st_rem < maxrem){
-            maxrem = st_rem;
-        }
-        ui.selector["st"][REM][i].set_option(0,maxrem,selected);
-        console.log(_ST);
-        var limitpoint = maxpoint - _ST[BASE][i] - _ST[REM][i]  - _ST[ELIXIR][i] ;
-        if(_point < limitpoint){limitpoint = _point;}
-        console.log(limitpoint);
-        ui.selector["st"][LEVEL][i].set_option(0,limitpoint,_ST[LEVEL][i]);
-/*
-        var limitpoint = maxpoint - _ST[BASE] + _ST[REM] + _ST[ELIXIR];
-        selected = ui.selector["st"][LEVEL][i].get_value();
-        if(selected > limitpoint){selected = 0;}
-        ui.selector["st"][LEVEL][i].set_option(0,ret,selected);*/
-    }
-    
-
-    
-/*
-    for (var i = 0; i < ST_LIST.length; i++) {
-        _ST[REM][i] = 0;
-        console.log(this.level);
-        var ret = 20;
-        if(this._rem + st_data[clsnum][BASE][i] < ret){ret = this._rem + st_data[clsnum][BASE][i];}
-        console.log(ret);
-        ui.selector["st"][REM][i].set_option(0,(ret-st_data[clsnum][BASE][i]),0);
-
-        _ST[BASE][i] = st_data[clsnum][BASE][i];
-        
-        ret = 0;
-        if(this.level > 50){
-            ret = this.level - 50;
-        }
-       
-        
-
-        ui.selector["st"][BASE][i].put_value(st_data[clsnum][BASE][i]);
-        var ret = this.maxstatus - st_data[clsnum][BASE][i];
-
-    }
-    */
-
-    
-    /** レベルによるステータステーブル。（廃止）
-    ui.selector["lev"].get_table(this.level);
-    for (i = 51; i < ui.selector["lev"].size; i++) {
-        var st = ST_LIST.indexOf(ui.selector["lev"].field[i]);
-
-        if (st >= 0) {
-            if (_ST[BASE][st] + _ST[REM][st] + _ST[LEVEL][st] +
-                _ST[ELIXIR][st] < 45) {
-                if (i <= level) {
-                    _ST[LEVEL][st]++;
-                }
-                ui.selector["lev"].isOverflow[i] = false;
-            } else if (i <= level) {
-                ui.selector["lev"].isOverflow[i] = true;
-            }
-
-        }
-    }
-
-    ui.selector["lev"].get_table(this.level);
-    //   ui.lev.repaint();
-*/
 
     /*武器属性？
             for (int i = 0; i < ELEM_LIST.length; i++) {
@@ -634,11 +553,12 @@ for (var b = 0; b < this.bougu.length; b++) {
     var pure_int = _ST[BASE][INT] + _ST[REM][INT] +
         _ST[LEVEL][INT] + _ST[ELIXIR][INT];
 
-
+  
     //ステータス合計値を反映
     for (var i = 0; i < ST_LIST.length; i++) {
         _ST[STSUM][i] =   _ST[BASE][i] + _ST[REM][i] + _ST[LEVEL][i] + _ST[ENCHANT][i] + _ST[ELIXIR][i];
-    ui.selector["st"][3].put_value(_ST[STSUM][i]);        
+       
+    ui.selector["st"][3][i].put_value(_ST[STSUM][i]);        
     }
 }
 
