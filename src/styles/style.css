@@ -1,3 +1,85 @@
+
+
+.uitab{
+    display:grid;
+
+    grid-template-columns: repeat(20,5vw);
+    grid-template-rows: repeat(20,5vh);
+}
+.panel{
+    display:grid;
+    grid-template-columns: repeat(10, 1fr 19fr);
+    grid-template-rows: repeat(10,1fr 19fr);
+    background: #eee;
+}
+
+#character{
+    grid-row:2 / span 2;
+    grid-column: 2 / span 4;
+  
+
+}
+#status{
+    grid-row:4 / 10;
+    grid-column: 2 / span 8;
+ 
+}
 #eqiup{
-    display:none;
+    grid-row:10 / 16;
+    grid-column: 2 / span 4;
+    
+}
+#equip dl{
+    border: 1px solid #000;
+}
+#status_title{
+    width:25%;
+    font-size:0.8rem;
+}
+#status_title dt,
+#status_title dd{
+    margin:0;
+}
+#status_grid{
+    width:50%;
+    display:-ms-grid;
+    display:grid;
+    grid-template-columns:30px 3px 30px 30px 30px 30px;
+    grid-template-rows: 30px 30px 30px 30px 30px 1fr;
+    background: #bbb;
+    border:1px solid #000;
+}
+
+.str_cell{
+    grid-row:1;
+}
+.dex_cell{
+    grid-row:2;
+}
+.int_cell{
+    grid-row:3;
+}
+.con_cell{
+    grid-row:4;
+}
+.wis_cell{
+    grid-row:5;
+}
+.cha_cell{
+    grid-row:6;
+}
+.param_cell{
+    grid-column: 1;
+}
+.sum_cell{
+    grid-column: 2;
+}
+.base_cell{
+    grid-column: 3;
+}
+.lv_cell{
+    grid-column: 4;
+}
+.rem_cell{
+    grid-column: 5;
 }

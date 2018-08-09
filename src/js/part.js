@@ -11,7 +11,7 @@ function UiTab(id, parent) {
         for (var i in id) {
             var div = document.createElement("div");
             div.setAttribute("id", id[i]);
-
+            div.setAttribute("class", "uitab");
             //tab0以外は非表示
             if (i > 0) {
                 div.setAttribute("style", "display:none;");
@@ -49,6 +49,38 @@ function UiPanel(id, parent) {
         section.setAttribute("class", "panel");
         this.parent.appendChild(section);
     }
+}
+/**
+ * ラベル要素作成
+ */
+function UiLabel(id, parent, label) {
+    cl = document.getElementById(id);
+    if (cl == null) return;
+    var dl = document.createElement("dl");
+    var dt = document.createElement("dt");
+    var dd = document.createElement("dd");
+    if (parent == null) {
+        this.parent = document.body;
+    } else {
+        this.parent = document.getElementById(parent);
+    }
+    this.value = "";
+    this.label = label;
+    dl.setAttribute("id", "label_dl_"+id);
+    dt.setAttribute("id", "label_dt_"+id);
+    dd.setAttribute("id", "label_dd_"+id);
+    dt.innerHTML = this.label;
+    dd.innerHTML = this.value;
+    this.valueselector = dd;
+    dl.appendChild(dt);
+    dl.appendChild(dd);
+    cl.appendChild(dl);
+}
+UiLabel.prototype.get_value = function(){
+    return this.value;
+}
+UiLabel.prototype.put_value = function(value){
+    this.valueselector.innerHTML = value;
 }
 
 /**
@@ -215,20 +247,51 @@ function  UiArmor(id){
  */
 function UiStatuslist(id){
     cl = document.getElementById(id);
+    
     if (cl == null) return;
     var ST = [[],[],[],[]];
+
+    var dl = document.createElement("dl");
+    var dt = document.createElement("dt");
+    var dd = document.createElement("dd");
+
+    dl.appendChild(dt);
+    dd.innerHTML = "合計";
+    dl.appendChild(dd);  
+    var dd = document.createElement("dd");
+    dd.innerHTML = "ベース";
+    dl.appendChild(dd);  
+    var dd = document.createElement("dd");
+    dd.innerHTML = "レベル";
+    dl.appendChild(dd);  
+    var dd = document.createElement("dd");
+    dd.innerHTML = "初期";
+    dl.appendChild(dd); 
+    var dd = document.createElement("dd");
+    dd.innerHTML = "エリクサー";
+    dl.appendChild(dd);
+    dl.setAttribute("id","st_title");   
+    cl.appendChild(dl);
+
     var param = ["str", "dex", "int", "con","wis","cha"];
     this.st = [];
     for(i in param){
  
         var dl = document.createElement("dl");
         var dt = document.createElement("dt");
-        
+        dl.setAttribute("id","st_list_"+pid);
+        dl.setAttribute("class","st_list");
+
         var pid = param[i];
+        dt.setAttribute("id","param_"+pid);
+        dt.setAttribute("class","param_cell "+pid+"_cell");
+    
         dt.innerHTML = pid;
         dl.appendChild(dt);
+        
         var dd = document.createElement("dd");
         dd.setAttribute("id","sum_"+pid);
+        dd.setAttribute("class","sum_cell "+pid+"_cell");
         dl.appendChild(dd);
         /*
         var dd = document.createElement("dd");
@@ -240,9 +303,11 @@ function UiStatuslist(id){
         */
         var dd = document.createElement("dd");
         dd.setAttribute("id","base_"+pid);
+        dd.setAttribute("class","base_cell "+pid+"_cell");
         dl.appendChild(dd);   
         var dd = document.createElement("dd");
         dd.setAttribute("id","lv_"+pid);
+        dd.setAttribute("class","lv_cell "+pid+"_cell");
         dl.appendChild(dd);  
         
         var select = document.createElement('select');
@@ -252,6 +317,7 @@ function UiStatuslist(id){
 
         var dd = document.createElement("dd");
         dd.setAttribute("id","rem_"+pid);
+        dd.setAttribute("class","rem_cell "+pid+"_cell");
         dl.appendChild(dd);  
         var select = document.createElement('select');
         select.setAttribute('id', 'rem_st_' + pid);
